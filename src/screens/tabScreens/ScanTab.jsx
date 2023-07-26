@@ -1,6 +1,6 @@
 import React, {useState, useRef} from 'react';
 import {View, StyleSheet, Animated, Text, LogBox, Alert} from 'react-native';
-const CommunityTab = ({navigation}) => {
+const ScanTab = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Text>扫码</Text>
@@ -25,4 +25,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
 });
-export default CommunityTab;
+export default ScanTab;

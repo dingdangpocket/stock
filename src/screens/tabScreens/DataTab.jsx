@@ -3,7 +3,7 @@
 import React, {useState, useRef, useEffect} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
-const DiscoveryTab = () => {
+const DataTab = () => {
   return (
     <View style={styles.container}>
       <Text>统计</Text>
@@ -21,4 +21,4 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 });
-export default DiscoveryTab;
+export default DataTab;

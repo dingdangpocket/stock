@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import HomeTab from 'src/screens/tabScreens/HomeTab';
-import CommunityTab from 'src/screens/tabScreens/CommunityTab';
-import DiscoveryTab from 'src/screens/tabScreens/DiscoveryTab';
+import RecoedTab from 'src/screens/tabScreens/RecordTab';
+import ScanTab from 'src/screens/tabScreens/ScanTab';
+import DataTab from 'src/screens/tabScreens/DataTab';
 import {ContentContext} from 'src/context/ContextProvider';
 import {TouchableOpacity} from 'react-native';
 import {useContext} from 'react';
@@ -17,31 +17,31 @@ import {
 } from 'src/icons';
 const Tab = createBottomTabNavigator();
 const IconSet = {
-  activeHomeTab: <RecordIconActive width="75%" height="75%" />,
-  unActiveHomeTab: <RecordIconUnActive width="75%" height="75%" />,
-  activeCommunityTab: <ScanIconActive width="82%" height="82%" />,
-  unActiveCommunityTab: <ScanIconUnActive width="75%" height="75%" />,
-  activeDiscoveryTab: <DataIconActive width="82%" height="82%" />,
-  unActiveDiscoveryTab: <DataIconUnActive width="82%" height="82%" />,
+  activeRecoedTab: <RecordIconActive width="75%" height="75%" />,
+  unActiveRecoedTab: <RecordIconUnActive width="75%" height="75%" />,
+  activeScanTab: <ScanIconActive width="82%" height="82%" />,
+  unActiveScanTab: <ScanIconUnActive width="75%" height="75%" />,
+  activeDataTab: <DataIconActive width="78%" height="78%" />,
+  unActiveDataTab: <DataIconUnActive width="82%" height="82%" />,
 };
 const HomeTabsRoutes = () => {
   const {state} = useContext(ContentContext);
   const HomeTabRoutesConfig = [
     {
-      name: 'HomeTab',
-      component: HomeTab,
+      name: 'RecoedTab',
+      component: RecoedTab,
       option: {title: '记录'},
       tabBarBadge: null,
     },
     {
-      name: 'CommunityTab',
-      component: CommunityTab,
+      name: 'ScanTab',
+      component: ScanTab,
       option: {title: '扫码'},
       tabBarBadge: state.communityTabBarBadge,
     },
     {
-      name: 'DiscoveryTab',
-      component: DiscoveryTab,
+      name: 'DataTab',
+      component: DataTab,
       option: {title: '统计'},
       tabBarBadge: null,
     },
