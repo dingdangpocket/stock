@@ -23,10 +23,10 @@ const RecordTab = () => {
   const fetchData = () => {
     setTimeout(() => {
       const newData = [
-        {code: 1564687845, name: 'LISI'},
-        {code: 1564687847, name: 'LISI'},
-        {code: 1564687445, name: 'LISI'},
-        {code: 1564681115, name: 'LISI'},
+        {code: 1564687845, name: '小重九'},
+        {code: 1564687847, name: '大重九'},
+        {code: 1564687445, name: '中华'},
+        {code: 1564681115, name: '云烟'},
       ];
       setData(newData);
       setRefreshing(false);
@@ -107,7 +107,7 @@ const RecordTab = () => {
         <TouchableOpacity
           style={{
             marginLeft: 10,
-            backgroundColor: '#007aff',
+            backgroundColor: 'gray',
             borderRadius: 5,
             paddingVertical: 10,
             paddingHorizontal: 20,
@@ -116,15 +116,15 @@ const RecordTab = () => {
           <Text
             style={{
               color: '#fff',
-              fontSize: 12,
+              fontSize: 10,
             }}>
-            +
+            增加
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
             marginLeft: 10,
-            backgroundColor: 'red',
+            backgroundColor: 'gray',
             borderRadius: 5,
             paddingVertical: 10,
             paddingHorizontal: 20,
@@ -135,7 +135,7 @@ const RecordTab = () => {
               color: '#fff',
               fontSize: 10,
             }}>
-            -
+            减少
           </Text>
         </TouchableOpacity>
         <Text>库存额:</Text>
@@ -203,7 +203,7 @@ const RecordTab = () => {
           <Text
             style={{
               color: '#fff',
-              fontSize: 12,
+              fontSize: 10,
             }}>
             更新
           </Text>
@@ -235,7 +235,6 @@ const RecordTab = () => {
           style={styles.input}
           placeholder="输入名称或条码"
           value={search} // 将text作为文本框的值
-          autoFocus={true}
           onChangeText={value => {
             onChangeSearch(value);
           }}
