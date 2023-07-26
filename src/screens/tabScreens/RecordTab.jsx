@@ -27,6 +27,13 @@ const RecordTab = () => {
         {id: 1, title: 'Card 1'},
         {id: 2, title: 'Card 2'},
         {id: 3, title: 'Card 3'},
+        {id: 4, title: 'Card 1'},
+        {id: 5, title: 'Card 2'},
+        {id: 6, title: 'Card 3'},
+        {id: 7, title: 'Card 1'},
+        {id: 8, title: 'Card 2'},
+        {id: 9, title: 'Card 3'},
+        {id: 10, title: 'Card 1'},
       ];
       setData(newData);
       setRefreshing(false);
@@ -40,9 +47,42 @@ const RecordTab = () => {
   const handlePress = () => {
     console.log(text); // 在控制台输出文本框的值
   };
-  const renderItem = ({item}) => (
-    <View style={{padding: 16}}>
-      <Text>{item.title}</Text>
+  const cardItem = ({item}) => (
+    <View style={styles.cardItem}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingHorizontal: 40,
+          paddingVertical: 5,
+          backgroundColor: '#f5f5f5',
+        }}>
+        <Text>条码:</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="输入名称或条码"
+          value={text} // 将text作为文本框的值
+          autoFocus={true}
+        />
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingHorizontal: 40,
+          paddingVertical: 5,
+          backgroundColor: '#f5f5f5',
+        }}>
+        <Text>名称:</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="输入名称或条码"
+          value={text} // 将text作为文本框的值
+          autoFocus={true}
+        />
+      </View>
     </View>
   );
   return (
@@ -61,7 +101,7 @@ const RecordTab = () => {
       <View style={styles.list}>
         <FlatList
           data={data}
-          renderItem={renderItem}
+          renderItem={cardItem}
           keyExtractor={item => item.id.toString()}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
@@ -109,7 +149,16 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    backgroundColor: 'green',
+    backgroundColor: 'rgb(200,200,200)',
+  },
+  cardItem: {
+    backgroundColor: 'white',
+    height: 120,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 10,
+    padding: 5,
+    borderRadius: 5,
   },
   // codeBlock: {
   //   backgroundColor: 'gray',
