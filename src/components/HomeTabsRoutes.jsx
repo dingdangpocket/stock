@@ -4,35 +4,25 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeTab from 'src/screens/tabScreens/HomeTab';
 import CommunityTab from 'src/screens/tabScreens/CommunityTab';
 import DiscoveryTab from 'src/screens/tabScreens/DiscoveryTab';
-import AccountTab from 'src/screens/tabScreens/AccountTab';
-import EventTab from 'src/screens/tabScreens/EventTab';
 import {ContentContext} from 'src/context/ContextProvider';
 import {TouchableOpacity} from 'react-native';
 import {useContext} from 'react';
 import {
-  DiscoveryIconActive,
-  DiscoveryIconUnActive,
-  CommunityIconActive,
-  CommunityIconUnActive,
-  EventIconUnActive,
-  EventIconActive,
-  MineIconUnActive,
-  MineIconActive,
-  HomeIconActive,
-  HomeIconUnActive,
+  RecordIconActive,
+  RecordIconUnActive,
+  ScanIconActive,
+  ScanIconUnActive,
+  DataIconActive,
+  DataIconUnActive,
 } from 'src/icons';
 const Tab = createBottomTabNavigator();
 const IconSet = {
-  activeHomeTab: <HomeIconActive width="70%" height="70%" />,
-  unActiveHomeTab: <HomeIconUnActive width="82%" height="82%" />,
-  activeCommunityTab: <CommunityIconActive width="69%" height="69%" />,
-  unActiveCommunityTab: <CommunityIconUnActive width="65%" height="65%" />,
-  activeEventTab: <EventIconActive width="76%" height="76%" />,
-  unActiveEventTab: <EventIconUnActive width="75%" height="75%" />,
-  activeAccountTab: <MineIconActive width="75%" height="75%" />,
-  unActiveAccountTab: <MineIconUnActive width="69%" height="69%" />,
-  activeDiscoveryTab: <DiscoveryIconActive width="72%" height="72%" />,
-  unActiveDiscoveryTab: <DiscoveryIconUnActive width="84%" height="84%" />,
+  activeHomeTab: <RecordIconActive width="75%" height="75%" />,
+  unActiveHomeTab: <RecordIconUnActive width="75%" height="75%" />,
+  activeCommunityTab: <ScanIconActive width="82%" height="82%" />,
+  unActiveCommunityTab: <ScanIconUnActive width="75%" height="75%" />,
+  activeDiscoveryTab: <DataIconActive width="82%" height="82%" />,
+  unActiveDiscoveryTab: <DataIconUnActive width="82%" height="82%" />,
 };
 const HomeTabsRoutes = () => {
   const {state} = useContext(ContentContext);
@@ -55,18 +45,6 @@ const HomeTabsRoutes = () => {
       option: {title: '统计'},
       tabBarBadge: null,
     },
-    // {
-    //   name: 'EventTab',
-    //   component: EventTab,
-    //   option: {title: '活动'},
-    //   tabBarBadge: state.eventTabBarBadge,
-    // },
-    // {
-    //   name: 'AccountTab',
-    //   component: AccountTab,
-    //   option: {title: '账户'},
-    //   tabBarBadge: null,
-    // },
   ];
   // const {dispatch} = useContext(ContentContext);
   return (
