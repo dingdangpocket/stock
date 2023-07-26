@@ -40,33 +40,33 @@ const HomeTabsRoutes = () => {
     {
       name: 'HomeTab',
       component: HomeTab,
-      option: {title: '首页'},
+      option: {title: '记录'},
       tabBarBadge: null,
     },
     {
       name: 'CommunityTab',
       component: CommunityTab,
-      option: {title: '社区'},
+      option: {title: '扫码'},
       tabBarBadge: state.communityTabBarBadge,
     },
     {
       name: 'DiscoveryTab',
       component: DiscoveryTab,
-      option: {title: '探索'},
+      option: {title: '统计'},
       tabBarBadge: null,
     },
-    {
-      name: 'EventTab',
-      component: EventTab,
-      option: {title: '活动'},
-      tabBarBadge: state.eventTabBarBadge,
-    },
-    {
-      name: 'AccountTab',
-      component: AccountTab,
-      option: {title: '账户'},
-      tabBarBadge: null,
-    },
+    // {
+    //   name: 'EventTab',
+    //   component: EventTab,
+    //   option: {title: '活动'},
+    //   tabBarBadge: state.eventTabBarBadge,
+    // },
+    // {
+    //   name: 'AccountTab',
+    //   component: AccountTab,
+    //   option: {title: '账户'},
+    //   tabBarBadge: null,
+    // },
   ];
   // const {dispatch} = useContext(ContentContext);
   return (
@@ -99,14 +99,6 @@ const HomeTabsRoutes = () => {
             name={item.name}
             options={{
               title: item.option.title,
-              tabBarBadge: item.tabBarBadge,
-              tabBarBadgeStyle: {
-                maxWidth: 20,
-                maxHeight: 16,
-                fontSize: 9,
-                lineHeight: 15,
-                backgroundColor: 'rgba(255,51,0,0.9)',
-              },
             }}
             component={item.component}
           />

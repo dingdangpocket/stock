@@ -8,7 +8,7 @@
  */
 
 import React, {useContext, useEffect} from 'react';
-import {SafeAreaView, View} from 'react-native';
+import {View} from 'react-native';
 import {ContentContext} from './src/context/ContextProvider';
 import RoutesNav from './src/components/RoutesNav';
 

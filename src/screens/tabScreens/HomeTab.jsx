@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useContext} from 'react';
 import {
@@ -85,7 +84,7 @@ const HomeTab = ({navigation}) => {
           {
             title: '允许访问您的地理位置',
             message: '我们将访问您的地理位置,以此为你推荐相关路线',
-          },
+          }
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           console.log('可以使用地理位置');
@@ -116,7 +115,7 @@ const HomeTab = ({navigation}) => {
                   onPress: () => console.log('Cancel Pressed'),
                   style: 'cancel',
                 },
-              ],
+              ]
             );
           },
           error => {
@@ -124,7 +123,7 @@ const HomeTab = ({navigation}) => {
           },
           {
             timeout: 5000,
-          },
+          }
         );
       } catch (error) {
         console.log('未被授权', error);
@@ -148,68 +147,7 @@ const HomeTab = ({navigation}) => {
   };
   return (
     <View style={{flex: 1}}>
-      <ScrollView horizontal={false}>
-        <View style={styles.optionArea}>
-          <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            style={styles.optionAreaLeft}>
-            {optionList.map(item => {
-              return (
-                <TouchableOpacity
-                  key={item.id}
-                  activeOpacity={0.8}
-                  onPress={() => setCurrent(item.id)}>
-                  <View
-                    style={
-                      item.id == current
-                        ? styles.optionBox
-                        : styles.optionBoxUnActived
-                    }>
-                    <Text
-                      style={
-                        item.id == current
-                          ? styles.textDefault
-                          : styles.textUnActived
-                      }>
-                      {item.content}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-          </ScrollView>
-        </View>
-        {current == 0 ? (
-          <View style={styles.focusListContainer}>
-            {btnList.map(item => {
-              return (
-                <CustomButton
-                  key={item.id}
-                  title={item.content}
-                  titleColor={'rgba(255,255,255,0.75)'}
-                  fontSize={11}
-                  width={150}
-                  height={50}
-                  marginTop={10}
-                  marginleft={10}
-                  marginRight={10}
-                  marginBottom={10}
-                  backgroundColor={'rgba(10,10,10,0.9)'}
-                  borderRadius={2.5}
-                  align={Center}
-                  onPress={item.method}
-                />
-              );
-            })}
-          </View>
-        ) : null}
-        {current == 1 ? <Text>精选</Text> : null}
-        {current == 2 ? <Text>热门</Text> : null}
-        {current == 3 ? <Text>示例</Text> : null}
-        {current == 4 ? <Text>理论</Text> : null}
-        {current == 5 ? <Text>问题</Text> : null}
-      </ScrollView>
+      <Text>记录</Text>
     </View>
   );
 };
