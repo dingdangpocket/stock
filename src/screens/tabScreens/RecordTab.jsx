@@ -13,20 +13,11 @@ import {
 import CardComponent from '../../components/CardComponent';
 
 const RecordTab = () => {
-  const INPUT = {
-    width: MainWidth * 0.65,
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    backgroundColor: '#fff',
-    marginBottom: 3.5,
-  };
   const [data, setData] = useState([]);
   const [search, onChangeSearch] = useState('');
   const [refreshing, setRefreshing] = useState(false);
-  const handlePress = () => {
-    console.log(); // 在控制台输出文本框的值
+  const handleQuery = () => {
+    console.log(search); // 在控制台输出文本框的值
   };
   useEffect(() => {
     fetchData();
@@ -97,8 +88,8 @@ const RecordTab = () => {
             onChangeSearch(value);
           }}
         />
-        <TouchableOpacity style={styles.button} onPress={handlePress}>
-          <Text style={styles.buttonText}>按钮</Text>
+        <TouchableOpacity style={styles.button} onPress={handleQuery}>
+          <Text style={styles.buttonText}>查询</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.list}>
