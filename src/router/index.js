@@ -43,7 +43,6 @@ const HomeStackRoutes = [
     option: {title: '图片保存'},
   },
 ];
-const CameraStackRoutes = [];
 const WechatStackRoutes = [
   {
     name: 'InfoScreen',
@@ -58,13 +57,7 @@ const ErrorStackRoutes = [
     option: {title: '错误页面'},
   },
 ];
-const EventStackRoutes = [
-  {
-    name: 'CameraTest',
-    component: CameraTest,
-    option: {title: 'CameraTest'},
-  },
-];
+
 const RecordStackRoutes = [
   {
     name: 'ScanStack',
@@ -76,8 +69,6 @@ export const containStackRoutes = [
   ...HomeStackRoutes,
   ...StorageStackRoutes,
   ...WechatStackRoutes,
-  ...CameraStackRoutes,
   ...ErrorStackRoutes,
-  ...EventStackRoutes,
   ...RecordStackRoutes,
 ];
