@@ -69,7 +69,7 @@ const BarcodeScannerComp = () => {
   // const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.QR_CODE]);
   const frameProcessor = useFrameProcessor(frame => {
     'worklet';
-    const detectedBarcodes = scanBarcodes(frame, [BarcodeFormat.QR_CODE], {
+    const detectedBarcodes = scanBarcodes(frame, [BarcodeFormat.ALL_FORMATS], {
       checkInverted: true,
     });
     REA.runOnJS(setBarcodes)(detectedBarcodes);
