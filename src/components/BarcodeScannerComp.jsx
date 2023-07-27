@@ -54,20 +54,18 @@ import {
   Camera,
   useFrameProcessor,
 } from 'react-native-vision-camera';
-// import {useScanBarcodes, BarcodeFormat} from 'vision-camera-code-scanner';
+import {} from 'react-native-vision-camera';
+import {useScanBarcodes, BarcodeFormat} from 'vision-camera-code-scanner';
 import runOnJS from 'react-native-reanimated';
 
 const BarcodeScannerComp = () => {
   const [hasPermission, setHasPermission] = React.useState(false);
   const devices = useCameraDevices();
   const device = devices.back;
-  const [barcodeResults, setBarcodeResults] = React.useState([]);
 
-  const frameProcessor = useFrameProcessor(frame => {
-    'worklet';
-    // const results = decode(frame, config);
-    runOnJS(setBarcodeResults)(JSON.stringify(frame));
-  }, []);
+  const [frameProcessor, barcodes] = useScanBarcodes([
+    BarcodeFormat.ALL_FORMATS,
+  ]);
 
   React.useEffect(() => {
     (async () => {
@@ -75,6 +73,10 @@ const BarcodeScannerComp = () => {
       setHasPermission(status === 'authorized');
     })();
   }, []);
+
+  React.useEffect(() => {
+    console.log(barcodes);
+  }, [barcodes]);
 
   return (
     device != null &&
@@ -87,11 +89,11 @@ const BarcodeScannerComp = () => {
           frameProcessor={frameProcessor}
           frameProcessorFps={5}
         />
-        {/* {barcodes.map((barcode, idx) => (
+        {barcodes.map((barcode, idx) => (
           <Text key={idx} style={styles.barcodeTextURL}>
             {barcode.displayValue}
           </Text>
-        ))} */}
+        ))}
       </>
     )
   );
