@@ -83,16 +83,17 @@ const RecordTab = () => {
   };
 
   const [code, setCode] = useState('');
-  const [name, setName] = useState('');
-  const [stock, setStock] = useState('');
-  const [total, setTotal] = useState('');
-  const [price, setPrice] = useState('');
-  const [salesPrice, setSalesPrice] = useState('');
+  // const [name, setName] = useState('');
+  // const [stock, setStock] = useState('');
+  // const [total, setTotal] = useState('');
+  // const [price, setPrice] = useState('');
+  // const [salesPrice, setSalesPrice] = useState('');
+  const [active, setActive] = useState(false);
   const onPressButton = item => {
     console.log('Text 1:', item);
   };
   const handleCode = (item, reHandleCode) => {
-    console.log('*');
+    console.log('*', reHandleCode);
     const rehandleData = data.map(x => {
       if (x.id === item.id) {
         return {...item, code: reHandleCode};
@@ -149,7 +150,6 @@ const RecordTab = () => {
                   value={item.name.toString()}
                 />
               </View>
-
               <View
                 style={{
                   flexDirection: 'row',
