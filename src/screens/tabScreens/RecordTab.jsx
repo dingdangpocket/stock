@@ -1,5 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
-
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -82,25 +80,11 @@ const RecordTab = () => {
     fetchData();
   };
 
-  const [code, setCode] = useState('');
-  // const [name, setName] = useState('');
-  // const [stock, setStock] = useState('');
-  // const [total, setTotal] = useState('');
-  // const [price, setPrice] = useState('');
-  // const [salesPrice, setSalesPrice] = useState('');
-  const [active, setActive] = useState(false);
-  const onPressButton = item => {
-    console.log('Text 1:', item);
-  };
-  const handleCode = (item, reHandleCode) => {
-    console.log('*', reHandleCode);
-    const rehandleData = data.map(x => {
-      if (x.id === item.id) {
-        return {...item, code: reHandleCode};
-      }
-      return x;
-    });
-    setData([...rehandleData]);
+  const handleSaveCard = (curCardId, newData) => {
+    setData(preData =>
+      preData.map(card => (card.id === curCardId ? {...card, newData} : card)),
+    );
+    console.log(newData);
   };
   return (
     <View style={styles.container}>
@@ -121,91 +105,10 @@ const RecordTab = () => {
         <FlatList
           data={data}
           renderItem={({item}) => (
-            <View style={{marginTop: 10, backgroundColor: 'white', padding: 7}}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-around',
-                }}>
-                <Text>商品条码:</Text>
-                <TextInput
-                  style={INPUT}
-                  placeholder="商品条码"
-                  onChangeText={value => handleCode(item, value)}
-                  value={item.code.toString()}
-                />
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-around',
-                }}>
-                <Text>商品名称:</Text>
-                <TextInput
-                  style={INPUT}
-                  placeholder="商品名称"
-                  // onChangeText={onChangeText2}
-                  value={item.name.toString()}
-                />
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-around',
-                }}>
-                <Text>商品库存:</Text>
-                <TextInput
-                  style={INPUT}
-                  placeholder="商品库存"
-                  // onChangeText={onChangeText4}
-                  value={item.stock.toString()}
-                />
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-around',
-                }}>
-                <Text>库存金额:</Text>
-                <TextInput
-                  style={INPUT}
-                  placeholder="库存金额"
-                  // onChangeText={onChangeText5}
-                  value={item.total.toString()}
-                />
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-around',
-                }}>
-                <Text>商品进价:</Text>
-                <TextInput
-                  style={INPUT}
-                  placeholder="商品进价"
-                  // onChangeText={onChangeText3}
-                />
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-around',
-                }}>
-                <Text>市场价格:</Text>
-                <TextInput
-                  style={INPUT}
-                  placeholder="市场价格"
-                  // onChangeText={onChangeText6}
-                />
-              </View>
-              <Button title="盘点更新" onPress={() => onPressButton(item)} />
-            </View>
+            <CardComponent
+              data={item}
+              onSave={newData => handleSaveCard(item.id, newData)}
+            />
           )}
           keyExtractor={item => item.code.toString()}
           refreshControl={
