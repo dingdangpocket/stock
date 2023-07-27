@@ -6,27 +6,27 @@ import {
   TouchableOpacity,
   showToast,
 } from 'react-native';
-// import {Camera} from 'react-native-vision-camera';
+import {Camera} from 'react-native-vision-camera';
 const ScanTab = ({navigation}) => {
   const handleAdd = () => {};
   const handleQueryInfo = () => {
     navigation.navigate('ScanStack');
   };
-  // useEffect(() => {
-  //   checkCameraPermission();
-  // }, []);
-  // const checkCameraPermission = async () => {
-  //   let status = await Camera.getCameraPermissionStatus();
-  //   if (status !== 'authorized') {
-  //     await Camera.requestCameraPermission();
-  //     status = await Camera.getCameraPermissionStatus();
-  //     if (status === 'denied') {
-  //       showToast(
-  //         'You will not be able to scan if you do not allow camera access',
-  //       );
-  //     }
-  //   }
-  // };
+  useEffect(() => {
+    checkCameraPermission();
+  }, []);
+  const checkCameraPermission = async () => {
+    let status = await Camera.getCameraPermissionStatus();
+    if (status !== 'authorized') {
+      await Camera.requestCameraPermission();
+      status = await Camera.getCameraPermissionStatus();
+      if (status === 'denied') {
+        showToast(
+          'You will not be able to scan if you do not allow camera access'
+        );
+      }
+    }
+  };
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} onPress={handleAdd}>
