@@ -1,4 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/no-unstable-nested-components */
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -10,12 +10,14 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
+import CardComponent from '../../components/CardComponent';
+
 const RecordTab = () => {
   const [data, setData] = useState([]);
   const [search, onChangeSearch] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const handlePress = () => {
-    console.log(text); // 在控制台输出文本框的值
+    console.log(); // 在控制台输出文本框的值
   };
   useEffect(() => {
     fetchData();
@@ -23,10 +25,38 @@ const RecordTab = () => {
   const fetchData = () => {
     setTimeout(() => {
       const newData = [
-        {code: 1564687845, name: '小重九'},
-        {code: 1564687847, name: '大重九'},
-        {code: 1564687445, name: '中华'},
-        {code: 1564681115, name: '云烟'},
+        {
+          code: 1564687845,
+          name: '中华',
+          stock: 48,
+          sum: 5000,
+          purchasePrice: 100,
+          salesPrice: 120,
+        },
+        {
+          code: 5564124845,
+          name: '小重九',
+          stock: 48,
+          sum: 5000,
+          purchasePrice: 100,
+          salesPrice: 120,
+        },
+        {
+          code: 1563387845,
+          name: '和天下',
+          stock: 48,
+          sum: 5000,
+          purchasePrice: 100,
+          salesPrice: 120,
+        },
+        {
+          code: 6964687815,
+          name: '云烟',
+          stock: 48,
+          sum: 5000,
+          purchasePrice: 100,
+          salesPrice: 120,
+        },
       ];
       setData(newData);
       setRefreshing(false);
@@ -37,197 +67,21 @@ const RecordTab = () => {
     fetchData();
   };
 
-  const handleUpdate = () => {};
-  const handleDelete = () => {};
-
-  const [record, onChangeRecord] = useState();
-  const cardItem = ({item}) => (
-    <View style={styles.cardItem}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-around',
-          paddingHorizontal: 0,
-          paddingVertical: 3,
-          backgroundColor: '#f5f5f5',
-        }}>
-        <Text>条码:</Text>
-        <TextInput
-          style={{
-            width: MainWidth * 0.3,
-            height: 40,
-            borderWidth: 1,
-            borderColor: '#ccc',
-            borderRadius: 5,
-            backgroundColor: '#fff',
-          }}
-          placeholder="条码"
-          value={String(item.code)} // 将text作为文本框的值
-          autoFocus={true}
-        />
-        <Text>名称:</Text>
-        <TextInput
-          style={{
-            width: MainWidth * 0.35,
-            height: 40,
-            borderWidth: 1,
-            borderColor: '#ccc',
-            borderRadius: 5,
-            backgroundColor: '#fff',
-          }}
-          placeholder="名称"
-          value={String(item.name)} // 将text作为文本框的值
-          autoFocus={true}
-        />
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-around',
-          paddingHorizontal: 0,
-          paddingVertical: 3,
-          backgroundColor: '#f5f5f5',
-        }}>
-        <Text>库存:</Text>
-        <TextInput
-          style={{
-            width: MainWidth * 0.15,
-            height: 40,
-            borderWidth: 1,
-            borderColor: '#ccc',
-            borderRadius: 5,
-            backgroundColor: '#fff',
-          }}
-          placeholder="库存"
-          value={String(item.code)} // 将text作为文本框的值
-          autoFocus={true}
-        />
-        <TouchableOpacity
-          style={{
-            marginLeft: 10,
-            backgroundColor: 'gray',
-            borderRadius: 5,
-            paddingVertical: 10,
-            paddingHorizontal: 20,
-          }}
-          onPress={handleUpdate}>
-          <Text
-            style={{
-              color: '#fff',
-              fontSize: 10,
-            }}>
-            增加
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            marginLeft: 10,
-            backgroundColor: 'gray',
-            borderRadius: 5,
-            paddingVertical: 10,
-            paddingHorizontal: 20,
-          }}
-          onPress={handleDelete}>
-          <Text
-            style={{
-              color: '#fff',
-              fontSize: 10,
-            }}>
-            减少
-          </Text>
-        </TouchableOpacity>
-        <Text>库存额:</Text>
-        <TextInput
-          style={{
-            width: MainWidth * 0.25,
-            height: 40,
-            borderWidth: 1,
-            borderColor: '#ccc',
-            borderRadius: 5,
-            backgroundColor: '#fff',
-          }}
-          placeholder="库存额"
-          value={String(item.name)} // 将text作为文本框的值
-          autoFocus={true}
-        />
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-around',
-          paddingHorizontal: 0,
-          paddingVertical: 3,
-          backgroundColor: '#f5f5f5',
-        }}>
-        <Text>进价:</Text>
-        <TextInput
-          style={{
-            width: MainWidth * 0.15,
-            height: 40,
-            borderWidth: 1,
-            borderColor: '#ccc',
-            borderRadius: 5,
-            backgroundColor: '#fff',
-          }}
-          placeholder="库存"
-          value={String(item.code)} // 将text作为文本框的值
-          autoFocus={true}
-        />
-        <Text>市场价:</Text>
-        <TextInput
-          style={{
-            width: MainWidth * 0.15,
-            height: 40,
-            borderWidth: 1,
-            borderColor: '#ccc',
-            borderRadius: 5,
-            backgroundColor: '#fff',
-            marginLeft: 3,
-          }}
-          placeholder="市场价"
-          value={String(item.code)} // 将text作为文本框的值
-          autoFocus={true}
-        />
-        <TouchableOpacity
-          style={{
-            marginLeft: 10,
-            backgroundColor: '#007aff',
-            borderRadius: 5,
-            paddingVertical: 10,
-            paddingHorizontal: 20,
-          }}
-          onPress={handleUpdate}>
-          <Text
-            style={{
-              color: '#fff',
-              fontSize: 10,
-            }}>
-            更新
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            marginLeft: 10,
-            backgroundColor: 'red',
-            borderRadius: 5,
-            paddingVertical: 10,
-            paddingHorizontal: 20,
-          }}
-          onPress={handleDelete}>
-          <Text
-            style={{
-              color: '#fff',
-              fontSize: 12,
-            }}>
-            删除
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+  const [text1, setText1] = useState('');
+  const [text2, setText2] = useState('');
+  const handleButtonPress = () => {
+    console.log('Text 1:', text1);
+    console.log('Text 2:', text2);
+  };
+  const Items = () => {
+    return (
+      <CardComponent
+        onChangeText1={setText1}
+        onChangeText2={setText2}
+        onPressButton={handleButtonPress}
+      />
+    );
+  };
   return (
     <View style={styles.container}>
       <View style={styles.searchBar}>
@@ -246,7 +100,7 @@ const RecordTab = () => {
       <View style={styles.list}>
         <FlatList
           data={data}
-          renderItem={cardItem}
+          renderItem={Items}
           keyExtractor={item => item.code.toString()}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
@@ -305,88 +159,4 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
   },
-  // codeBlock: {
-  //   backgroundColor: 'gray',
-  //   borderBottomWidth: 1,
-  //   borderColor: 'red',
-  //   fontSize: 13,
-  //   color: 'white',
-  //   paddingRight: 10,
-  // },
-  // image: {
-  //   width: 200,
-  //   height: 200,
-  // },
-  // input: {
-  //   width: MainWidth * 0.8,
-  //   borderWidth: 2,
-  //   height: 40,
-  //   marginTop: 0,
-  //   marginBottom: 0,
-  //   marginLeft: MainWidth * 0.1,
-  //   marginRight: MainWidth * 0.1,
-  // },
-  // TabViewItem: {
-  //   display: 'flex',
-  //   flexWrap: 'wrap',
-  // },
-  // optionArea: {
-  //   backgroundColor: 'green',
-  //   flex: 1,
-  //   flexDirection: 'row',
-  //   flexWrap: 'nowrap',
-  //   justifyContent: 'space-between',
-  // },
-  // optionAreaLeft: {
-  //   backgroundColor: 'white',
-  //   height: 60,
-  //   width: MainWidth * 0.75,
-  // },
-  // btn: {
-  //   height: 60,
-  //   width: 95,
-  //   margin: 10,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   fontSize: 15,
-  //   borderBottomWidth: 2,
-  //   borderBottomColor: '#972F97',
-  //   backgroundColor: 'black',
-  // },
-  // optionBox: {
-  //   height: 60,
-  //   width: 95,
-  //   flex: 1,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   fontSize: 15,
-  //   borderBottomWidth: 2,
-  //   borderBottomColor: '#972F97',
-  //   backgroundColor: 'black',
-  // },
-  // optionBoxUnActived: {
-  //   height: 60,
-  //   width: 95,
-  //   backgroundColor: 'white',
-  //   flex: 1,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
-  // textDefault: {
-  //   color: 'white',
-  //   fontSize: 15,
-  // },
-  // textUnActived: {
-  //   color: 'gray',
-  // },
-  // focusListContainer: {
-  //   flex: 1,
-  //   flexDirection: 'row',
-  //   flexWrap: 'wrap',
-  //   justifyContent: 'center',
-  // },
-  // buttonRow: {
-  //   flexDirection: 'row',
-  //   marginVertical: 16,
-  // },
 });
