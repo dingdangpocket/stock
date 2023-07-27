@@ -20,7 +20,7 @@ const CardComponent = ({data, onSave}) => {
   const [price, setPrice] = useState(data.price);
   const [salesPrice, setSalesPrice] = useState(data.salesPrice);
   const onHandleSave = () => {
-    onSave(code, name, stock, total, price, salesPrice);
+    onSave({code, name, stock, total, price, salesPrice});
   };
   return (
     <View style={{marginTop: 10, backgroundColor: 'white', padding: 7}}>

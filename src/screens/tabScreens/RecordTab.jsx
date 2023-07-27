@@ -82,7 +82,7 @@ const RecordTab = () => {
 
   const handleSaveCard = (curCardId, newData) => {
     setData(preData =>
-      preData.map(card => (card.id === curCardId ? {...card, newData} : card)),
+      preData.map(card => (card.id === curCardId ? {...card, newData} : card))
     );
     console.log(newData);
   };
