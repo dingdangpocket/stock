@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
     backgroundColor: 'rgb(200,200,200)',
+    padding: 10,
   },
   cardItem: {
     backgroundColor: 'white',
