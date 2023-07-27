@@ -14,11 +14,11 @@ const CardComponent = ({data, onSave}) => {
     marginBottom: 3.5,
   };
   const [code, setCode] = useState(data.code);
-  const [name, setName] = useState('');
-  const [stock, setStock] = useState('');
-  const [total, setTotal] = useState('');
-  const [price, setPrice] = useState('');
-  const [salesPrice, setSalesPrice] = useState('');
+  const [name, setName] = useState(data.name);
+  const [stock, setStock] = useState(data.stock);
+  const [total, setTotal] = useState(data.total);
+  const [price, setPrice] = useState(data.price);
+  const [salesPrice, setSalesPrice] = useState(data.salesPrice);
   const onHandleSave = () => {
     onSave(code, name, stock, total, price, salesPrice);
   };
@@ -49,7 +49,7 @@ const CardComponent = ({data, onSave}) => {
           style={INPUT}
           placeholder="商品名称"
           onChangeText={setName}
-          value={name}
+          value={String(name)}
         />
       </View>
 
@@ -64,7 +64,7 @@ const CardComponent = ({data, onSave}) => {
           style={INPUT}
           placeholder="商品库存"
           onChangeText={setStock}
-          value={stock}
+          value={String(stock)}
         />
       </View>
       <View
@@ -78,7 +78,7 @@ const CardComponent = ({data, onSave}) => {
           style={INPUT}
           placeholder="库存金额"
           onChangeText={setTotal}
-          value={total}
+          value={String(total)}
         />
       </View>
       <View
@@ -92,7 +92,7 @@ const CardComponent = ({data, onSave}) => {
           style={INPUT}
           placeholder="商品进价"
           onChangeText={setPrice}
-          value={price}
+          value={String(price)}
         />
       </View>
       <View
@@ -106,7 +106,7 @@ const CardComponent = ({data, onSave}) => {
           style={INPUT}
           placeholder="市场价格"
           onChangeText={setSalesPrice}
-          value={salesPrice}
+          value={String(salesPrice)}
         />
       </View>
       <Button title="盘点更新" onPress={onHandleSave} />
