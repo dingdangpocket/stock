@@ -21,6 +21,7 @@ const CardComponent = ({data, onSave}) => {
   const [salesPrice, setSalesPrice] = useState(data.salesPrice);
   const onHandleSave = () => {
     onSave({code, name, stock, total, price, salesPrice});
+    //传回父组件；
   };
   return (
     <View style={{marginTop: 10, backgroundColor: 'white', padding: 7}}>

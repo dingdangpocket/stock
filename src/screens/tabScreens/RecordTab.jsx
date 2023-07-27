@@ -84,7 +84,7 @@ const RecordTab = () => {
     setData(preData =>
       preData.map(card => (card.id === curCardId ? {...card, newData} : card))
     );
-    console.log(newData);
+    console.log('commit数据', newData);
   };
   return (
     <View style={styles.container}>
