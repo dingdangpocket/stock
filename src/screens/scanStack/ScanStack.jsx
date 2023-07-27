@@ -25,22 +25,3 @@ const styles = StyleSheet.create({
   },
 });
 export default ScanStack;
-
-// const BarcodeScanner = () => {
-//   const [barcodeData, setBarcodeData] = useState('');
-//   const handleBarcodeScan = ({ nativeEvent }) => {
-//     setBarcodeData(nativeEvent.codeStringValue);
-//   };
-//   return (
-//     <View style={styles.container}>
-//       <CameraScreen
-//         style={styles.camera}
-//         onReadCode={handleBarcodeScan}
-//       >
-//         <BarcodeMask />
-//       </CameraScreen>
-//       <Text style={styles.barcodeText}>{barcodeData}</Text>
-//     </View>
-//   );
-// };
-// 添加样式：
