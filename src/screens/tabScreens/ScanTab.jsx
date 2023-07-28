@@ -12,6 +12,7 @@ import {
   TextInput,
 } from 'react-native';
 import {Camera} from 'react-native-vision-camera';
+import {BarCode, AddGoods} from 'src/icons';
 const ScanTab = ({navigation}) => {
   const handleQueryInfo = () => {
     navigation.navigate('ScanStack');
@@ -87,6 +88,7 @@ const ScanTab = ({navigation}) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => setModalVisible(true)}>
+          <AddGoods width="55%" height="55%" />
           <Text style={styles.buttonText}>新建商品</Text>
         </TouchableOpacity>
         <Modal visible={modalVisible} animationType="slide">
@@ -122,7 +124,6 @@ const ScanTab = ({navigation}) => {
               value={field5}
               onChangeText={text => setField5(text)}
             />
-
             <TextInput
               style={styles.input}
               placeholder="请输入市场价格"
@@ -144,6 +145,7 @@ const ScanTab = ({navigation}) => {
       </View>
       <View>
         <TouchableOpacity style={styles.button} onPress={handleQueryInfo}>
+          <BarCode width="68%" height="68%" />
           <Text style={styles.buttonText}>条码查询</Text>
         </TouchableOpacity>
       </View>
@@ -157,13 +159,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    height: 80,
-    width: 120,
+    height: 150,
+    width: 150,
     margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#5571DD',
-    borderRadius: 10,
+    backgroundColor: 'rgb(50,50,50)',
+    borderRadius: 5,
   },
   button2: {
     height: 60,
@@ -171,8 +173,8 @@ const styles = StyleSheet.create({
     margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#5571DD',
-    borderRadius: 10,
+    backgroundColor: 'rgb(50,50,50)',
+    borderRadius: 5,
   },
   buttonText: {
     color: 'white',

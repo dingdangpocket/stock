@@ -23,7 +23,7 @@ const RecordTab = () => {
       `http://47.109.111.138:8888/product/page?keywords=${search}&pageNum=1&pageSize=300`,
       {
         method: 'GET',
-      }
+      },
     )
       .then(response =>
         response.json().then(res => {
@@ -32,7 +32,7 @@ const RecordTab = () => {
             setRefreshing(false);
           }
           console.log('搜索数据', res);
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -59,7 +59,7 @@ const RecordTab = () => {
             setRefreshing(false);
           }
           console.log('列表数据', res);
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -73,7 +73,7 @@ const RecordTab = () => {
   const handleSaveCard = newData => {
     setData(preData =>
       preData.map(preItem =>
-        preItem.id === newData.id ? {...preItem, newData} : preItem,
+        preItem.id === newData.id ? {...preItem, newData} : preItem
       ),
     );
     fetch('http://47.109.111.138:8888/product/edit', {
@@ -97,7 +97,7 @@ const RecordTab = () => {
             fetchData();
           }
           console.log('修改结果', res);
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginLeft: 10,
-    backgroundColor: '#007aff',
+    backgroundColor: 'rgb(20,20,20)',
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,
