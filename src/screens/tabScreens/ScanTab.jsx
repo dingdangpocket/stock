@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -11,7 +12,6 @@ import {
 } from 'react-native';
 import {Camera} from 'react-native-vision-camera';
 const ScanTab = ({navigation}) => {
-  const handleAdd = () => {};
   const handleQueryInfo = () => {
     navigation.navigate('ScanStack');
   };
@@ -25,11 +25,12 @@ const ScanTab = ({navigation}) => {
       status = await Camera.getCameraPermissionStatus();
       if (status === 'denied') {
         showToast(
-          'You will not be able to scan if you do not allow camera access'
+          'You will not be able to scan if you do not allow camera access',
         );
       }
     }
   };
+  //CAMERA
   const [modalVisible, setModalVisible] = useState(false);
   const [field1, setField1] = useState('');
   const [field2, setField2] = useState('');
@@ -38,61 +39,74 @@ const ScanTab = ({navigation}) => {
   const [field5, setField5] = useState('');
   const [field6, setField6] = useState('');
   const handleSave = () => {
-    // 在这里处理保存逻辑，可以使用 field1、field2、field3、field4、field5 和 field6 的值
     console.log('保存数据:', field1, field2, field3, field4, field5, field6);
     setModalVisible(false);
   };
   return (
     <View style={styles.container}>
-      <View>
-        <Button title="新建商品" onPress={() => setModalVisible(true)} />
+      <View style={{marginBottom: 10}}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setModalVisible(true)}>
+          <Text style={styles.buttonText}>新建商品</Text>
+        </TouchableOpacity>
         <Modal visible={modalVisible} animationType="slide">
           <View style={styles.modalContainer}>
-            <Text style={styles.title}>弹窗表单</Text>
+            <Text style={styles.title}>新增商品</Text>
             <TextInput
               style={styles.input}
-              placeholder="字段1"
+              placeholder="请输入商品条码"
               value={field1}
               onChangeText={text => setField1(text)}
             />
             <TextInput
               style={styles.input}
-              placeholder="字段2"
+              placeholder="请输入商品名称"
               value={field2}
               onChangeText={text => setField2(text)}
             />
             <TextInput
               style={styles.input}
-              placeholder="字段3"
+              placeholder="请输入商品库存"
               value={field3}
               onChangeText={text => setField3(text)}
             />
             <TextInput
               style={styles.input}
-              placeholder="字段4"
+              placeholder="请输入库存金额"
               value={field4}
               onChangeText={text => setField4(text)}
             />
             <TextInput
               style={styles.input}
-              placeholder="字段5"
+              placeholder="请输入商品进价"
               value={field5}
               onChangeText={text => setField5(text)}
             />
             <TextInput
               style={styles.input}
-              placeholder="字段6"
+              placeholder="请输入市场价格"
               value={field6}
               onChangeText={text => setField6(text)}
             />
             <View style={styles.buttonContainer}>
-              <Button title="取消" onPress={() => setModalVisible(false)} />
-              <Button title="保存" onPress={handleSave} />
+              <TouchableOpacity
+                style={styles.button2}
+                onPress={() => setModalVisible(false)}>
+                <Text style={styles.buttonText}>取消</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button2} onPress={handleSave}>
+                <Text style={styles.buttonText}>保存</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </Modal>
       </View>
-      <Button title="查詢商品" onPress={handleQueryInfo} />
+      <View>
+        <TouchableOpacity style={styles.button} onPress={handleQueryInfo}>
+          <Text style={styles.buttonText}>條碼查詢</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -103,14 +117,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    height: 100,
-    width: 160,
+    height: 80,
+    width: 120,
     margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomWidth: 2,
     borderBottomColor: 'blue',
-    backgroundColor: 'black',
+    backgroundColor: 'blue',
+    borderRadius: 10,
+  },
+  button2: {
+    height: 60,
+    width: 90,
+    margin: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomWidth: 2,
+    borderBottomColor: 'blue',
+    backgroundColor: 'blue',
     borderRadius: 10,
   },
   buttonText: {
