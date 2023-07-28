@@ -4,7 +4,7 @@ import BarcodeScannerComp from '../../components/BarcodeScannerComp';
 const ScanStack = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <BarcodeScannerComp />
+      <BarcodeScannerComp navigation={navigation} />
     </View>
   );
 };

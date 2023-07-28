@@ -48,7 +48,7 @@
 // });
 // export default BarcodeScannerComp;
 import React, {useState} from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {Alert, StyleSheet, Text} from 'react-native';
 import {
   useCameraDevices,
   Camera,
@@ -60,7 +60,7 @@ import {
   BarcodeFormat,
 } from 'vision-camera-code-scanner';
 import * as REA from 'react-native-reanimated';
-const BarcodeScannerComp = () => {
+const BarcodeScannerComp = ({navigation}) => {
   const [hasPermission, setHasPermission] = React.useState(false);
   const devices = useCameraDevices();
   const device = devices.back;
@@ -83,7 +83,14 @@ const BarcodeScannerComp = () => {
   }, []);
 
   React.useEffect(() => {
-    console.log(barcodes);
+    console.log('barcodes', barcodes);
+
+    if (barcodes && barcodes?.length !== 0 && barcodes[0]?.rawValue) {
+      navigation.navigate('InfoStack', {barcodes: barcodes[0]?.rawValue});
+      console.log();
+      return;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [barcodes]);
 
   return (
@@ -97,11 +104,6 @@ const BarcodeScannerComp = () => {
           frameProcessor={frameProcessor}
           frameProcessorFps={5}
         />
-        {/* {barcodes.map((barcode, idx) => (
-          <Text key={idx} style={styles.barcodeTextURL}>
-            {barcode.displayValue}
-          </Text>
-        ))} */}
       </>
     )
   );
