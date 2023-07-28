@@ -26,7 +26,6 @@ const CardComponent = ({item, onSave, onDel}) => {
   const [setTotal] = useState(item.total);
   const [cost, setCost] = useState(item.cost);
   const [sell, setSell] = useState(item.sell);
-  // console.log('render', item);
   const onHandleSave = () => {
     const TOTAL = stock * cost;
     onSave({
@@ -104,7 +103,6 @@ const CardComponent = ({item, onSave, onDel}) => {
           value={String(name)}
         />
       </View>
-
       <View
         style={{
           flexDirection: 'row',
