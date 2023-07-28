@@ -38,8 +38,10 @@ const DataTab = () => {
   }, [data]);
   return (
     <View style={styles.container}>
-      <Text style={{fontSize: 35}}>库存条数:{totalStock}</Text>
-      <Text style={{fontSize: 40}}>库存金额:{total.toFixed(2)}</Text>
+      <Text style={{fontSize: 38, color: 'rgb(80,80,80)'}}>总条数</Text>
+      <Text style={{fontSize: 37}}>{totalStock}</Text>
+      <Text style={{fontSize: 38, color: 'rgb(80,80,80)'}}>库存金额</Text>
+      <Text style={{fontSize: 37}}>￥{total.toFixed(2)}</Text>
     </View>
   );
 };
