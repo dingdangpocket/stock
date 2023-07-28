@@ -3,7 +3,6 @@ import React, {useState} from 'react';
 import {
   View,
   TextInput,
-  Button,
   TouchableOpacity,
   Dimensions,
   Text,
@@ -24,11 +23,21 @@ const CardComponent = ({item, onSave, onDel}) => {
   const [code, setCode] = useState(item.code);
   const [name, setName] = useState(item.name);
   const [stock, setStock] = useState(item.stock);
-  const [total, setTotal] = useState(item.total);
-  const [price, setPrice] = useState(item.cost);
-  const [salesPrice, setSalesPrice] = useState(item.sell);
+  const [setTotal] = useState(item.total);
+  const [cost, setCost] = useState(item.cost);
+  const [sell, setSell] = useState(item.sell);
+  // console.log('render', item);
   const onHandleSave = () => {
-    onSave({id, code, name, stock, total, price, salesPrice});
+    const TOTAL = stock * cost;
+    onSave({
+      id,
+      code: Number(code),
+      name: String(name),
+      stock: Number(stock),
+      total: Number(TOTAL),
+      cost: Number(cost),
+      sell: Number(sell),
+    });
     //传回父组件；
   };
   const onHandleDel = () => {
@@ -121,7 +130,8 @@ const CardComponent = ({item, onSave, onDel}) => {
           style={INPUT}
           placeholder="库存金额"
           onChangeText={setTotal}
-          value={String(stock * price)}
+          value={String(stock * cost)}
+          editable={false}
         />
       </View>
       <View
@@ -134,8 +144,8 @@ const CardComponent = ({item, onSave, onDel}) => {
         <TextInput
           style={INPUT}
           placeholder="商品进价"
-          onChangeText={setPrice}
-          value={String(price)}
+          onChangeText={setCost}
+          value={String(cost)}
         />
       </View>
       <View
@@ -148,8 +158,8 @@ const CardComponent = ({item, onSave, onDel}) => {
         <TextInput
           style={INPUT}
           placeholder="市场价格"
-          onChangeText={setSalesPrice}
-          value={String(salesPrice)}
+          onChangeText={setSell}
+          value={String(sell)}
         />
       </View>
       <View style={styles.btnContainer}>

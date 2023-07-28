@@ -72,11 +72,12 @@ const RecordTab = () => {
   };
 
   const handleSaveCard = newData => {
-    setData(preData =>
-      preData.map(preItem =>
-        preItem.id === newData.id ? {...preItem, newData} : preItem,
-      ),
-    );
+    console.log('newData', newData);
+    // setData(preData =>
+    //   preData.map(preItem =>
+    //     preItem.id === newData.id ? {...newData} : preItem
+    //   ),
+    // );
     fetch('http://47.109.111.138:8888/product/edit', {
       method: 'PUT',
       headers: {
@@ -87,7 +88,7 @@ const RecordTab = () => {
         code: newData.code,
         name: newData.name,
         stock: newData.stock,
-        cost: newData.price,
+        cost: newData.cost,
         sell: newData.salesPrice,
         total: newData.total,
       }),
