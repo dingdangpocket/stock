@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   TextInput,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 import CardComponent from '../../components/CardComponent';
 
@@ -54,7 +55,7 @@ const RecordTab = () => {
     })
       .then(response =>
         response.json().then(res => {
-          if (res.code == 200) {
+          if (res.code === 200) {
             setData(res.data.content);
             setRefreshing(false);
           }
@@ -104,6 +105,26 @@ const RecordTab = () => {
       });
     console.log('commit数据', newData);
   };
+
+  const handleDelCard = id => {
+    fetch(`http://47.109.111.138:8888/product/remove/${id}`, {
+      method: 'DELETE',
+    })
+      .then(response =>
+        response.json().then(res => {
+          if (res.code === 200) {
+            Alert.alert('提示', '删除成功', [{text: '确认'}], {
+              cancelable: false,
+            });
+            fetchData();
+          }
+          console.log('删除结果', res);
+        }),
+      )
+      .catch(err => {
+        console.log(err);
+      });
+  };
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.container}>
@@ -128,6 +149,7 @@ const RecordTab = () => {
               <CardComponent
                 item={item}
                 onSave={newData => handleSaveCard(newData)}
+                onDel={id => handleDelCard(id)}
               />
             )}
             keyExtractor={item => item.id.toString()}

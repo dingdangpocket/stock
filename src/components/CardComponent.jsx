@@ -9,7 +9,7 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
-const CardComponent = ({item, onSave}) => {
+const CardComponent = ({item, onSave, onDel}) => {
   let MainWidth = Dimensions.get('window').width;
   const INPUT = {
     width: MainWidth * 0.65,
@@ -30,6 +30,9 @@ const CardComponent = ({item, onSave}) => {
   const onHandleSave = () => {
     onSave({id, code, name, stock, total, price, salesPrice});
     //传回父组件；
+  };
+  const onHandleDel = () => {
+    onDel(id);
   };
   return (
     <View style={{marginTop: 10, backgroundColor: 'white', padding: 7}}>
@@ -150,6 +153,9 @@ const CardComponent = ({item, onSave}) => {
         />
       </View>
       <View style={styles.btnContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => onHandleDel()}>
+          <Text style={styles.buttonText}>删除</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => onHandleSave()}>
           <Text style={styles.buttonText}>盘点更新</Text>
         </TouchableOpacity>
@@ -160,12 +166,13 @@ const CardComponent = ({item, onSave}) => {
 let MainWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   btnContainer: {
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
   button: {
     height: 40,
-    width: MainWidth * 0.86,
+    width: MainWidth * 0.42,
     margin: 5,
     justifyContent: 'center',
     alignItems: 'center',
