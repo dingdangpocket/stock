@@ -31,6 +31,9 @@ const InfoStack = ({route, navigation}) => {
     data && (
       <View style={styles.container}>
         <View style={styles.infoCard}>
+          <Text style={{fontSize: 30, color: 'white', marginLeft: 12}}>
+            详细信息
+          </Text>
           <Text style={styles.buttonText}>商品条码：{data[0]?.code}</Text>
           <Text style={styles.buttonText}>商品名称：{data[0]?.name}</Text>
           <Text style={styles.buttonText}>商品库存：{data[0]?.stock}</Text>
@@ -52,9 +55,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   infoCard: {
-    height: 200,
-    width: 260,
+    height: 250,
+    width: 275,
     backgroundColor: 'black',
+    padding: 5,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    marginBottom: 100,
   },
   button: {
     height: 100,
@@ -68,6 +76,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   buttonText: {
+    marginLeft: 15,
     color: 'white',
     fontSize: 20,
   },

@@ -22,7 +22,7 @@ const ScanStackRoutes = [
   {
     name: 'InfoStack',
     component: InfoStack,
-    option: {title: '信息查詢'},
+    option: {title: '条码信息'},
   },
 ];
 export const containStackRoutes = [
