@@ -24,7 +24,7 @@ const RecordTab = () => {
       `http://47.109.111.138:8888/product/page?keywords=${search}&pageNum=1&pageSize=300`,
       {
         method: 'GET',
-      }
+      },
     )
       .then(response =>
         response.json().then(res => {
@@ -33,7 +33,7 @@ const RecordTab = () => {
             setRefreshing(false);
           }
           console.log('搜索数据', res);
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -60,7 +60,7 @@ const RecordTab = () => {
             setRefreshing(false);
           }
           console.log('列表数据', res);
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -99,7 +99,7 @@ const RecordTab = () => {
             fetchData();
           }
           console.log('修改结果', res);
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -120,7 +120,7 @@ const RecordTab = () => {
             fetchData();
           }
           console.log('删除结果', res);
-        })
+        }),
       )
       .catch(err => {
         console.log(err);

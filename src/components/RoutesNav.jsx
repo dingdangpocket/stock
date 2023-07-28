@@ -2,7 +2,6 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {containStackRoutes} from 'src/router/index';
-import Login from 'src/screens/login/Login';
 import HomeTabRoutes from 'src/components/HomeTabsRoutes';
 const Stack = createStackNavigator();
 const linking = {
