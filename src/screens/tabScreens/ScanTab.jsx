@@ -25,7 +25,7 @@ const ScanTab = ({navigation}) => {
       status = await Camera.getCameraPermissionStatus();
       if (status === 'denied') {
         showToast(
-          'You will not be able to scan if you do not allow camera access',
+          'You will not be able to scan if you do not allow camera access'
         );
       }
     }

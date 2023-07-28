@@ -1,9 +1,16 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {View, TextInput, Button, Dimensions, Text} from 'react-native';
+import {
+  View,
+  TextInput,
+  Button,
+  TouchableOpacity,
+  Dimensions,
+  Text,
+  StyleSheet,
+} from 'react-native';
 const CardComponent = ({item, onSave}) => {
   let MainWidth = Dimensions.get('window').width;
-  let MainHeight = Dimensions.get('window').height;
   const INPUT = {
     width: MainWidth * 0.65,
     height: 40,
@@ -111,8 +118,32 @@ const CardComponent = ({item, onSave}) => {
           value={String(salesPrice)}
         />
       </View>
-      <Button title="盘点更新" onPress={onHandleSave} />
+      <View style={styles.btnContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => onHandleSave()}>
+          <Text style={styles.buttonText}>盘点更新</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
+let MainWidth = Dimensions.get('window').width;
+const styles = StyleSheet.create({
+  btnContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    height: 40,
+    width: MainWidth * 0.86,
+    margin: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#5571DD',
+    borderRadius: 3,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 15,
+  },
+});
 export default CardComponent;

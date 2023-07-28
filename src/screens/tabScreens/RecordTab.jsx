@@ -8,7 +8,6 @@ import {
   RefreshControl,
   TouchableOpacity,
   TextInput,
-  Button,
   KeyboardAvoidingView,
 } from 'react-native';
 import CardComponent from '../../components/CardComponent';
@@ -146,7 +145,6 @@ const RecordTab = () => {
 };
 export default RecordTab;
 let MainWidth = Dimensions.get('window').width;
-let MainHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
