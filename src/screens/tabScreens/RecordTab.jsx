@@ -19,11 +19,37 @@ const RecordTab = () => {
   const [refreshing, setRefreshing] = useState(false);
   const handleQuery = () => {
     console.log(search); // 在控制台输出文本框的值
+    setRefreshing(true);
+    fetch(
+      `http://47.109.111.138:8888/product/page?keywords=${search}&pageNum=1&pageSize=300`,
+      {
+        method: 'GET',
+      },
+    )
+      .then(response =>
+        response.json().then(res => {
+          if (res.code == 200) {
+            setData(res.data.content);
+            setRefreshing(false);
+          }
+          console.log('搜索数据', res);
+        }),
+      )
+      .catch(err => {
+        console.log(err);
+      });
   };
   useEffect(() => {
     fetchData();
   }, []);
+  useEffect(() => {
+    if (!search) {
+      fetchData();
+    }
+  }, [search]);
+
   const fetchData = () => {
+    setRefreshing(true);
     fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=300', {
       method: 'GET',
     })
@@ -86,7 +112,7 @@ const RecordTab = () => {
           <TextInput
             style={styles.input}
             placeholder="输入名称或条码"
-            value={search} // 将text作为文本框的值
+            value={search}
             onChangeText={value => {
               onChangeSearch(value);
             }}
@@ -156,7 +182,7 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    backgroundColor: 'rgb(200,200,200)',
+    backgroundColor: 'rgb(235,235,235)',
     padding: 10,
   },
   cardItem: {

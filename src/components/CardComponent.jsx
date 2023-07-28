@@ -80,7 +80,7 @@ const CardComponent = ({item, onSave}) => {
           style={INPUT}
           placeholder="库存金额"
           onChangeText={setTotal}
-          value={String(total)}
+          value={String(stock * price)}
         />
       </View>
       <View
