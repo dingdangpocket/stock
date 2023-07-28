@@ -23,48 +23,63 @@ const RecordTab = () => {
     fetchData();
   }, []);
   const fetchData = () => {
-    setTimeout(() => {
-      const newData = [
-        {
-          id: 1,
-          code: 1564687845,
-          name: '中华',
-          stock: 48,
-          total: 5000,
-          price: 100,
-          salesPrice: 120,
-        },
-        {
-          id: 2,
-          code: 5564124845,
-          name: '小重九',
-          stock: 48,
-          total: 5000,
-          price: 100,
-          salesPrice: 120,
-        },
-        {
-          id: 3,
-          code: 1563387845,
-          name: '和天下',
-          stock: 48,
-          total: 5000,
-          price: 100,
-          salesPrice: 120,
-        },
-        {
-          id: 4,
-          code: 6964687815,
-          name: '云烟',
-          stock: 48,
-          total: 5000,
-          price: 100,
-          salesPrice: 120,
-        },
-      ];
-      setData(newData);
-      setRefreshing(false);
-    }, 2000);
+    console.log(11);
+    fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=300', {
+      method: 'GET',
+    })
+      .then(response =>
+        response.json().then(res => {
+          if (res.code == 200) {
+            setData(res.data.content);
+          }
+          console.log('?', res);
+        })
+      )
+      .catch(err => {
+        console.log(err);
+      });
+    // setTimeout(() => {
+    //   const newData = [
+    //     {
+    //       id: 1,
+    //       code: 1564687845,
+    //       name: '中华',
+    //       stock: 48,
+    //       total: 5000,
+    //       price: 100,
+    //       salesPrice: 120,
+    //     },
+    //     {
+    //       id: 2,
+    //       code: 5564124845,
+    //       name: '小重九',
+    //       stock: 48,
+    //       total: 5000,
+    //       price: 100,
+    //       salesPrice: 120,
+    //     },
+    //     {
+    //       id: 3,
+    //       code: 1563387845,
+    //       name: '和天下',
+    //       stock: 48,
+    //       total: 5000,
+    //       price: 100,
+    //       salesPrice: 120,
+    //     },
+    //     {
+    //       id: 4,
+    //       code: 6964687815,
+    //       name: '云烟',
+    //       stock: 48,
+    //       total: 5000,
+    //       price: 100,
+    //       salesPrice: 120,
+    //     },
+    //   ];
+    //   setData(newData);
+    //   setRefreshing(false);
+    // }, 2000);
   };
   const handleRefresh = () => {
     setRefreshing(true);
@@ -73,7 +88,7 @@ const RecordTab = () => {
 
   const handleSaveCard = (curCardId, newData) => {
     setData(preData =>
-      preData.map(card => (card.id === curCardId ? {...card, newData} : card))
+      preData.map(card => (card.id === curCardId ? {...card, newData} : card)),
     );
     console.log('commit数据', newData);
   };
@@ -101,7 +116,7 @@ const RecordTab = () => {
               onSave={newData => handleSaveCard(item.id, newData)}
             />
           )}
-          keyExtractor={item => item.code.toString()}
+          keyExtractor={item => item.id.toString()}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
           }

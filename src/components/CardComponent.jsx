@@ -17,8 +17,8 @@ const CardComponent = ({data, onSave}) => {
   const [name, setName] = useState(data.name);
   const [stock, setStock] = useState(data.stock);
   const [total, setTotal] = useState(data.total);
-  const [price, setPrice] = useState(data.price);
-  const [salesPrice, setSalesPrice] = useState(data.salesPrice);
+  const [price, setPrice] = useState(data.cost);
+  const [salesPrice, setSalesPrice] = useState(data.sell);
   const onHandleSave = () => {
     onSave({code, name, stock, total, price, salesPrice});
     //传回父组件；
