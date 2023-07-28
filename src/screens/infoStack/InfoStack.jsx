@@ -1,7 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 const InfoStack = ({route, navigation}) => {
-  console.log(route.params);
   const [data, setData] = useState();
   const [barcodes, setBarcodes] = useState(route.params.barcodes);
   useEffect(() => {
@@ -44,6 +44,26 @@ const InfoStack = ({route, navigation}) => {
             商品利差：{(data[0]?.sell - data[0]?.cost).toFixed(2)}
           </Text>
         </View>
+        <View
+          style={{
+            width: 250,
+            height: 90,
+            // backgroundColor: 'red',
+            flexDirection: 'row',
+            alignContent: 'center',
+            justifyContent: 'center',
+          }}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('ScanTab')}>
+            <Text style={styles.buttonText1}>返回</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.replace('ScanStack')}>
+            <Text style={styles.buttonText1}>重新扫码</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   );
@@ -56,27 +76,30 @@ const styles = StyleSheet.create({
   },
   infoCard: {
     height: 250,
-    width: 275,
+    width: 295,
     backgroundColor: 'black',
     padding: 5,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    marginBottom: 100,
+    marginBottom: 80,
+    borderRadius: 10,
   },
   button: {
-    height: 100,
-    width: 160,
+    height: 60,
+    width: 100,
     margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    borderBottomWidth: 2,
-    borderBottomColor: 'blue',
-    backgroundColor: 'black',
+    backgroundColor: '#5571DD',
     borderRadius: 10,
   },
   buttonText: {
     marginLeft: 15,
+    color: 'white',
+    fontSize: 20,
+  },
+  buttonText1: {
     color: 'white',
     fontSize: 20,
   },

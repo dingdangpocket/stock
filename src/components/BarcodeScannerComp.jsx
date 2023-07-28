@@ -1,72 +1,18 @@
-// import React, {useState, useEffect} from 'react';
-// import {
-//   Camera,
-//   useCameraDevices,
-//   useFrameProcessor,
-// } from 'react-native-vision-camera';
-// import {View, Text, StyleSheet} from 'react-native';
-// const frameProcessor = async ({data}) => {
-//   // 在这里处理图像数据
-//   // 返回一个包含处理结果的对象
-//   return {data};
-// };
-// // import {useScanBarcodes, BarcodeFormat} from 'vision-camera-code-scanner';
-
-// const BarcodeScannerComp = () => {
-//   const [devices] = useCameraDevices();
-//   const [isProcessingFrames, setIsProcessingFrames] = useState(false);
-//   useEffect(() => {
-//     if (devices.length > 0) {
-//       Camera.requestCameraPermission().then(granted => {
-//         if (granted) {
-//           setIsProcessingFrames(true);
-//         }
-//       });
-//     }
-//   }, [devices]);
-//   useFrameProcessor(frameProcessor, {paused: !isProcessingFrames});
-//   return (
-//     <View style={{flex: 1}}>
-//       {devices.length === 0 ? (
-//         <Text>No camera devices found.</Text>
-//       ) : (
-//         <Camera
-//           style={{flex: 1}}
-//           device={devices[0]}
-//           isActive={isProcessingFrames}
-//         />
-//       )}
-//     </View>
-//   );
-// };
-// const styles = StyleSheet.create({
-//   barcodeTextURL: {
-//     fontSize: 20,
-//     color: 'white',
-//     fontWeight: 'bold',
-//   },
-// });
-// export default BarcodeScannerComp;
-import React, {useState} from 'react';
-import {Alert, StyleSheet, Text} from 'react-native';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, Text} from 'react-native';
 import {
   useCameraDevices,
   Camera,
   useFrameProcessor,
 } from 'react-native-vision-camera';
-import {
-  useScanBarcodes,
-  scanBarcodes,
-  BarcodeFormat,
-} from 'vision-camera-code-scanner';
+import {scanBarcodes, BarcodeFormat} from 'vision-camera-code-scanner';
 import * as REA from 'react-native-reanimated';
 const BarcodeScannerComp = ({navigation}) => {
   const [hasPermission, setHasPermission] = React.useState(false);
   const devices = useCameraDevices();
   const device = devices.back;
   const [barcodes, setBarcodes] = useState();
-
-  // const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.QR_CODE]);
   const frameProcessor = useFrameProcessor(frame => {
     'worklet';
     const detectedBarcodes = scanBarcodes(frame, [BarcodeFormat.ALL_FORMATS], {
@@ -74,25 +20,20 @@ const BarcodeScannerComp = ({navigation}) => {
     });
     REA.runOnJS(setBarcodes)(detectedBarcodes);
   }, []);
-
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       const status = await Camera.requestCameraPermission();
       setHasPermission(status === 'authorized');
     })();
   }, []);
 
-  React.useEffect(() => {
-    console.log('barcodes', barcodes);
-
+  useEffect(() => {
+    // console.log('barcodes', barcodes);
     if (barcodes && barcodes?.length !== 0 && barcodes[0]?.rawValue) {
       navigation.navigate('InfoStack', {barcodes: barcodes[0]?.rawValue});
-      console.log();
-      return;
+      // return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [barcodes]);
-
   return (
     device != null &&
     hasPermission && (

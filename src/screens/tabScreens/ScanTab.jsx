@@ -25,7 +25,7 @@ const ScanTab = ({navigation}) => {
       status = await Camera.getCameraPermissionStatus();
       if (status === 'denied') {
         showToast(
-          'You will not be able to scan if you do not allow camera access'
+          'You will not be able to scan if you do not allow camera access',
         );
       }
     }
@@ -104,7 +104,7 @@ const ScanTab = ({navigation}) => {
       </View>
       <View>
         <TouchableOpacity style={styles.button} onPress={handleQueryInfo}>
-          <Text style={styles.buttonText}>條碼查詢</Text>
+          <Text style={styles.buttonText}>条码查询</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -122,9 +122,7 @@ const styles = StyleSheet.create({
     margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    borderBottomWidth: 2,
-    borderBottomColor: 'blue',
-    backgroundColor: 'blue',
+    backgroundColor: '#5571DD',
     borderRadius: 10,
   },
   button2: {
@@ -133,9 +131,7 @@ const styles = StyleSheet.create({
     margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    borderBottomWidth: 2,
-    borderBottomColor: 'blue',
-    backgroundColor: 'blue',
+    backgroundColor: '#5571DD',
     borderRadius: 10,
   },
   buttonText: {

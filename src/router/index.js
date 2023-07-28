@@ -16,19 +16,16 @@ const RecordStackRoutes = [
     component: ScanStack,
     option: {title: '扫码查询'},
   },
-];
-
-const ScanStackRoutes = [
   {
     name: 'InfoStack',
     component: InfoStack,
     option: {title: '条码信息'},
   },
 ];
+
 export const containStackRoutes = [
   ...HomeStackRoutes,
   ...StorageStackRoutes,
   ...ErrorStackRoutes,
   ...RecordStackRoutes,
-  ...ScanStackRoutes,
 ];
