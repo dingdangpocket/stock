@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   TextInput,
   Button,
+  KeyboardAvoidingView,
 } from 'react-native';
 import CardComponent from '../../components/CardComponent';
 
@@ -23,7 +24,6 @@ const RecordTab = () => {
     fetchData();
   }, []);
   const fetchData = () => {
-    console.log(11);
     fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=300', {
       method: 'GET',
     })
@@ -34,53 +34,11 @@ const RecordTab = () => {
             setRefreshing(false);
           }
           console.log('列表数据', res);
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
       });
-    // setTimeout(() => {
-    //   const newData = [
-    //     {
-    //       id: 1,
-    //       code: 1564687845,
-    //       name: '中华',
-    //       stock: 48,
-    //       total: 5000,
-    //       price: 100,
-    //       salesPrice: 120,
-    //     },
-    //     {
-    //       id: 2,
-    //       code: 5564124845,
-    //       name: '小重九',
-    //       stock: 48,
-    //       total: 5000,
-    //       price: 100,
-    //       salesPrice: 120,
-    //     },
-    //     {
-    //       id: 3,
-    //       code: 1563387845,
-    //       name: '和天下',
-    //       stock: 48,
-    //       total: 5000,
-    //       price: 100,
-    //       salesPrice: 120,
-    //     },
-    //     {
-    //       id: 4,
-    //       code: 6964687815,
-    //       name: '云烟',
-    //       stock: 48,
-    //       total: 5000,
-    //       price: 100,
-    //       salesPrice: 120,
-    //     },
-    //   ];
-    //   setData(newData);
-    //   setRefreshing(false);
-    // }, 2000);
   };
   const handleRefresh = () => {
     setRefreshing(true);
@@ -89,41 +47,75 @@ const RecordTab = () => {
 
   const handleSaveCard = newData => {
     setData(preData =>
-      preData.map(card => (card.id === newData.id ? {...card, newData} : card)),
+      preData.map(preItem =>
+        preItem.id === newData.id ? {...preItem, newData} : preItem
+      ),
     );
+    fetch('http://47.109.111.138:8888/product/edit', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: newData.id,
+        code: newData.code,
+        name: newData.name,
+        stock: newData.stock,
+        cost: newData.price,
+        sell: newData.salesPrice,
+        total: newData.total,
+      }),
+    })
+      .then(response =>
+        response.json().then(res => {
+          if (res.code === 200) {
+            fetchData();
+          }
+          console.log('修改结果', res);
+        }),
+      )
+      .catch(err => {
+        console.log(err);
+      });
     console.log('commit数据', newData);
   };
   return (
-    <View style={styles.container}>
-      <View style={styles.searchBar}>
-        <TextInput
-          style={styles.input}
-          placeholder="输入名称或条码"
-          value={search} // 将text作为文本框的值
-          onChangeText={value => {
-            onChangeSearch(value);
-          }}
-        />
-        <TouchableOpacity style={styles.button} onPress={handleQuery}>
-          <Text style={styles.buttonText}>查询</Text>
-        </TouchableOpacity>
+    <KeyboardAvoidingView style={styles.container}>
+      <View style={styles.container}>
+        <View style={styles.searchBar}>
+          <TextInput
+            style={styles.input}
+            placeholder="输入名称或条码"
+            value={search} // 将text作为文本框的值
+            onChangeText={value => {
+              onChangeSearch(value);
+            }}
+          />
+          <TouchableOpacity style={styles.button} onPress={handleQuery}>
+            <Text style={styles.buttonText}>查询</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.list}>
+          <FlatList
+            data={data}
+            renderItem={({item}) => (
+              <CardComponent
+                item={item}
+                onSave={newData => handleSaveCard(newData)}
+              />
+            )}
+            keyExtractor={item => item.id.toString()}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={handleRefresh}
+              />
+            }
+          />
+        </View>
       </View>
-      <View style={styles.list}>
-        <FlatList
-          data={data}
-          renderItem={({item}) => (
-            <CardComponent
-              item={item}
-              onSave={newData => handleSaveCard(newData)}
-            />
-          )}
-          keyExtractor={item => item.id.toString()}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-          }
-        />
-      </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 export default RecordTab;

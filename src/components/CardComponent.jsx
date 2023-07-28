@@ -21,9 +21,7 @@ const CardComponent = ({item, onSave}) => {
   const [price, setPrice] = useState(item.cost);
   const [salesPrice, setSalesPrice] = useState(item.sell);
   const onHandleSave = () => {
-    console.log('!', item.id);
     onSave({id, code, name, stock, total, price, salesPrice});
-
     //传回父组件；
   };
   return (
