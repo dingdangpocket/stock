@@ -31,9 +31,10 @@ const RecordTab = () => {
         response.json().then(res => {
           if (res.code == 200) {
             setData(res.data.content);
+            setRefreshing(false);
           }
-          console.log('?', res);
-        })
+          console.log('列表数据', res);
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -88,7 +89,7 @@ const RecordTab = () => {
 
   const handleSaveCard = (curCardId, newData) => {
     setData(preData =>
-      preData.map(card => (card.id === curCardId ? {...card, newData} : card)),
+      preData.map(card => (card.id === curCardId ? {...card, newData} : card))
     );
     console.log('commit数据', newData);
   };
