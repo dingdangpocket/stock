@@ -34,7 +34,7 @@ const RecordTab = () => {
             setRefreshing(false);
           }
           console.log('列表数据', res);
-        }),
+        })
       )
       .catch(err => {
         console.log(err);
@@ -87,9 +87,9 @@ const RecordTab = () => {
     fetchData();
   };
 
-  const handleSaveCard = (curCardId, newData) => {
+  const handleSaveCard = newData => {
     setData(preData =>
-      preData.map(card => (card.id === curCardId ? {...card, newData} : card))
+      preData.map(card => (card.id === newData.id ? {...card, newData} : card)),
     );
     console.log('commit数据', newData);
   };
@@ -113,8 +113,8 @@ const RecordTab = () => {
           data={data}
           renderItem={({item}) => (
             <CardComponent
-              data={item}
-              onSave={newData => handleSaveCard(item.id, newData)}
+              item={item}
+              onSave={newData => handleSaveCard(newData)}
             />
           )}
           keyExtractor={item => item.id.toString()}

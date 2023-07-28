@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {View, TextInput, Button, Dimensions, Text} from 'react-native';
-const CardComponent = ({data, onSave}) => {
+const CardComponent = ({item, onSave}) => {
   let MainWidth = Dimensions.get('window').width;
   let MainHeight = Dimensions.get('window').height;
   const INPUT = {
@@ -13,14 +13,17 @@ const CardComponent = ({data, onSave}) => {
     backgroundColor: '#fff',
     marginBottom: 3.5,
   };
-  const [code, setCode] = useState(data.code);
-  const [name, setName] = useState(data.name);
-  const [stock, setStock] = useState(data.stock);
-  const [total, setTotal] = useState(data.total);
-  const [price, setPrice] = useState(data.cost);
-  const [salesPrice, setSalesPrice] = useState(data.sell);
+  const [id] = useState(item.id);
+  const [code, setCode] = useState(item.code);
+  const [name, setName] = useState(item.name);
+  const [stock, setStock] = useState(item.stock);
+  const [total, setTotal] = useState(item.total);
+  const [price, setPrice] = useState(item.cost);
+  const [salesPrice, setSalesPrice] = useState(item.sell);
   const onHandleSave = () => {
-    onSave({code, name, stock, total, price, salesPrice});
+    console.log('!', item.id);
+    onSave({id, code, name, stock, total, price, salesPrice});
+
     //传回父组件；
   };
   return (
