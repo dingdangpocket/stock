@@ -1,3 +1,5 @@
+/* eslint-disable handle-callback-err */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {
@@ -5,8 +7,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  showToast,
-  Button,
+  Alert,
   Modal,
   TextInput,
 } from 'react-native';
@@ -24,8 +25,8 @@ const ScanTab = ({navigation}) => {
       await Camera.requestCameraPermission();
       status = await Camera.getCameraPermissionStatus();
       if (status === 'denied') {
-        showToast(
-          'You will not be able to scan if you do not allow camera access'
+        Alert.alert(
+          'You will not be able to scan if you do not allow camera access',
         );
       }
     }
@@ -40,7 +41,45 @@ const ScanTab = ({navigation}) => {
   const [field6, setField6] = useState('');
   const handleSave = () => {
     console.log('保存数据:', field1, field2, field3, field4, field5, field6);
-    setModalVisible(false);
+    fetch('http://47.109.111.138:8888/product/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        // id: newData.id,
+        code: field1,
+        name: field2,
+        stock: field3,
+        cost: field4,
+        total: field5,
+        sell: field6,
+      }),
+    })
+      .then(response =>
+        response.json().then(res => {
+          if (res.code === 200) {
+            console.log('新增结果', res);
+            Alert.alert('保存成功');
+            setModalVisible(false);
+          } else {
+            Alert.alert(
+              '提示',
+              '商品保存失败，请检查是否已经存在该商品',
+              [{text: '确认'}],
+              {cancelable: false}
+            );
+          }
+        })
+      )
+      .catch(err => {
+        Alert.alert(
+          '提示',
+          '商品保存失败，请检查是否已经存在该商品',
+          [{text: '确认'}],
+          {cancelable: false}
+        );
+      });
   };
   return (
     <View style={styles.container}>
@@ -73,16 +112,17 @@ const ScanTab = ({navigation}) => {
             />
             <TextInput
               style={styles.input}
-              placeholder="请输入库存金额"
+              placeholder="请输入商品进价"
               value={field4}
               onChangeText={text => setField4(text)}
             />
             <TextInput
               style={styles.input}
-              placeholder="请输入商品进价"
+              placeholder="请输入库存金额"
               value={field5}
               onChangeText={text => setField5(text)}
             />
+
             <TextInput
               style={styles.input}
               placeholder="请输入市场价格"
