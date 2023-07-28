@@ -27,6 +27,7 @@ const InfoStack = ({route, navigation}) => {
         console.log(err);
       });
   }, [barcodes]);
+  //   #FF7A22
   return (
     data && (
       <View style={styles.container}>
@@ -35,21 +36,45 @@ const InfoStack = ({route, navigation}) => {
             ...styles.infoCard,
             backgroundColor:
               data[0]?.stock >= 0 && data[0]?.stock <= 3
-                ? '#FF7A22'
+                ? 'white'
                 : data[0]?.stock > 3 && data[0]?.stock <= 8
-                ? 'green'
-                : 'red',
+                ? 'white'
+                : 'white',
           }}>
-          <Text style={{fontSize: 30, color: 'white', marginLeft: 12}}>
+          <Text style={{fontSize: 30, color: 'black', marginLeft: 12}}>
             详细信息
           </Text>
-          <Text style={{fontSize: 13, color: 'white', marginLeft: 15}}>
-            {data[0]?.stock >= 0 && data[0]?.stock <= 3
-              ? '库存紧张'
-              : data[0]?.stock > 3 && data[0]?.stock <= 8
-              ? '库存正常'
-              : '库存过高'}
-          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              height: 20,
+              justifyContent: 'center',
+              alignContent: 'center',
+              marginBottom: 2,
+              marginLeft: 14,
+            }}>
+            <View
+              style={{
+                backgroundColor:
+                  data[0]?.stock >= 0 && data[0]?.stock <= 3
+                    ? '#FF7A22'
+                    : data[0]?.stock > 3 && data[0]?.stock <= 8
+                    ? 'green'
+                    : 'red',
+                width: 12,
+                height: 12,
+                borderRadius: 6,
+                marginTop: 3,
+              }}
+            />
+            <Text>
+              {data[0]?.stock >= 0 && data[0]?.stock <= 3
+                ? '库存紧张'
+                : data[0]?.stock > 3 && data[0]?.stock <= 8
+                ? '库存正常'
+                : '库存过高'}
+            </Text>
+          </View>
           <Text style={styles.buttonText}>商品条码：{data[0]?.code}</Text>
           <Text style={styles.buttonText}>商品名称：{data[0]?.name}</Text>
           <Text style={styles.buttonText}>商品库存：{data[0]?.stock}</Text>
@@ -102,21 +127,21 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 60,
-    width: 100,
+    width: 90,
     margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#5571DD',
-    borderRadius: 10,
+    backgroundColor: 'rgb(50,50,50)',
+    borderRadius: 5,
   },
   buttonText: {
     marginLeft: 15,
-    color: 'white',
-    fontSize: 20,
+    color: 'black',
+    fontSize: 18,
   },
   buttonText1: {
     color: 'white',
-    fontSize: 20,
+    fontSize: 18,
   },
 });
 export default InfoStack;

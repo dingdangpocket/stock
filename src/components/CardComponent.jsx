@@ -36,6 +36,37 @@ const CardComponent = ({item, onSave}) => {
       <View
         style={{
           flexDirection: 'row',
+          height: 20,
+          justifyContent: 'center',
+          alignContent: 'center',
+          marginBottom: 2,
+        }}>
+        <View
+          style={{
+            backgroundColor:
+              stock >= 0 && stock <= 3
+                ? '#FF7A22'
+                : stock > 3 && stock <= 8
+                ? 'green'
+                : 'red',
+            width: 12,
+            height: 12,
+            borderRadius: 6,
+            marginTop: 3,
+          }}
+        />
+        <Text>
+          {stock >= 0 && stock <= 3
+            ? '库存紧张'
+            : stock > 3 && stock <= 8
+            ? '库存正常'
+            : '库存过高'}
+        </Text>
+      </View>
+
+      <View
+        style={{
+          flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-around',
         }}>
