@@ -3,25 +3,35 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useState, useRef, useEffect, useMemo} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
-
+import {useFocusEffect} from '@react-navigation';
 const DataTab = () => {
   const [data, setData] = useState([]);
-  useEffect(() => {
-    fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=300', {
-      method: 'GET',
-    })
-      .then(response =>
-        response.json().then(res => {
-          if (res.code === 200) {
-            setData(res.data.content);
-          }
-          console.log('列表数据', res);
-        }),
-      )
-      .catch(err => {
-        console.log(err);
-      });
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      // 在组件获得焦点时执行一些操作
+      console.log('MyScreen is focused');
+      return () => {
+        // 在组件失去焦点时执行一些操作
+        console.log('MyScreen is unfocused');
+      };
+    }, [])
+  );
+  // useEffect(() => {
+  //   fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=300', {
+  //     method: 'GET',
+  //   })
+  //     .then(response =>
+  //       response.json().then(res => {
+  //         if (res.code === 200) {
+  //           setData(res.data.content);
+  //         }
+  //         console.log('列表数据', res);
+  //       })
+  //     )
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // }, []);
   const totalStock = useMemo(() => {
     console.log('data', data);
     const result = data.reduce((sum, next) => {
