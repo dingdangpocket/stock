@@ -74,7 +74,6 @@ const CardComponent = ({item, onSave, onDel}) => {
             : '库存过高'}
         </Text>
       </View>
-
       <View
         style={{
           flexDirection: 'row',

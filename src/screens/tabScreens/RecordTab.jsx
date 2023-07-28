@@ -89,7 +89,7 @@ const RecordTab = () => {
         name: newData.name,
         stock: newData.stock,
         cost: newData.cost,
-        sell: newData.salesPrice,
+        sell: newData.sell,
         total: newData.total,
       }),
     })
@@ -142,7 +142,6 @@ const RecordTab = () => {
             <Text style={styles.buttonText}>查询</Text>
           </TouchableOpacity>
         </View>
-
         <View style={styles.list}>
           <FlatList
             data={data}
