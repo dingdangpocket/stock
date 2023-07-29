@@ -19,7 +19,7 @@ const DataTab = () => {
               setData(res.data.content);
             }
             console.log('列表数据', res);
-          }),
+          })
         )
         .catch(err => {
           console.log(err);
@@ -30,22 +30,6 @@ const DataTab = () => {
       };
     }, []),
   );
-  // useEffect(() => {
-  //   fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=300', {
-  //     method: 'GET',
-  //   })
-  //     .then(response =>
-  //       response.json().then(res => {
-  //         if (res.code === 200) {
-  //           setData(res.data.content);
-  //         }
-  //         console.log('列表数据', res);
-  //       })
-  //     )
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // }, []);
   const totalStock = useMemo(() => {
     console.log('data', data);
     const result = data.reduce((sum, next) => {
