@@ -7,9 +7,9 @@ import {
   Dimensions,
   Text,
   StyleSheet,
+  Alert,
 } from 'react-native';
-const CardComponent = ({item, onSave, onDel}) => {
-  console.log('III', item);
+const CardComponent = ({item, onSave, onDel, cancelDisable}) => {
   let MainWidth = Dimensions.get('window').width;
   const INPUT = {
     width: MainWidth * 0.65,
@@ -41,10 +41,23 @@ const CardComponent = ({item, onSave, onDel}) => {
     //传回父组件；
   };
   const onHandleDel = () => {
-    onDel(id);
+    Alert.alert('提示', '删除商品后需重新添加，确认删除？', [
+      {
+        text: '取消',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: '确认删除', onPress: () => onDel(id)},
+    ]);
   };
   return (
-    <View style={{marginTop: 10, backgroundColor: 'white', padding: 7}}>
+    <View
+      style={{
+        marginTop: 10,
+        backgroundColor: 'white',
+        padding: 7,
+        borderRadius: 4,
+      }}>
       <View
         style={{
           flexDirection: 'row',
@@ -171,9 +184,11 @@ const CardComponent = ({item, onSave, onDel}) => {
         </Text>
       </View>
       <View style={styles.btnContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => onHandleDel()}>
-          <Text style={styles.buttonText}>删除</Text>
-        </TouchableOpacity>
+        {cancelDisable ? null : (
+          <TouchableOpacity style={styles.button} onPress={() => onHandleDel()}>
+            <Text style={styles.buttonText}>删除</Text>
+          </TouchableOpacity>
+        )}
         <TouchableOpacity style={styles.button} onPress={() => onHandleSave()}>
           <Text style={styles.buttonText}>盘点更新</Text>
         </TouchableOpacity>

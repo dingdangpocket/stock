@@ -14,28 +14,29 @@ import {
   ScrollView,
 } from 'react-native';
 import CardComponent from '../../components/CardComponent';
-
 const RecordTab = () => {
   const [data, setData] = useState([]);
   const [search, onChangeSearch] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const handleQuery = () => {
-    console.log(search); // 在控制台输出文本框的值
+    setCurBtn(1);
+    btns.forEach(item => {
+      item.id === 1 ? (item.active = true) : (item.active = false);
+    });
     setRefreshing(true);
     fetch(
       `http://47.109.111.138:8888/product/page?keywords=${search}&pageNum=1&pageSize=300`,
       {
         method: 'GET',
-      },
+      }
     )
       .then(response =>
         response.json().then(res => {
-          if (res.code == 200) {
+          if (res.code === 200) {
             setData(res.data.content);
             setRefreshing(false);
           }
-          console.log('搜索数据', res);
-        }),
+        })
       )
       .catch(err => {
         console.log(err);
@@ -46,8 +47,13 @@ const RecordTab = () => {
   }, []);
   useEffect(() => {
     if (!search) {
+      setCurBtn(1);
+      btns.forEach(item => {
+        item.id === 1 ? (item.active = true) : (item.active = false);
+      });
       fetchData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
   const fetchData = () => {
@@ -62,8 +68,7 @@ const RecordTab = () => {
             setRefreshing(false);
             return res;
           }
-          console.log('列表数据', res);
-        }),
+        })
       )
       .catch(err => {
         console.log(err);
@@ -71,11 +76,10 @@ const RecordTab = () => {
   };
   const handleRefresh = () => {
     setRefreshing(true);
-    fetchData();
+    generaicDateHandle();
   };
 
   const handleSaveCard = newData => {
-    console.log('newData', newData);
     fetch('http://47.109.111.138:8888/product/edit', {
       method: 'PUT',
       headers: {
@@ -94,15 +98,19 @@ const RecordTab = () => {
       .then(response =>
         response.json().then(res => {
           if (res.code === 200) {
-            fetchData();
+            Alert.alert('提示', '盘点成功', [{text: '确认'}], {
+              cancelable: false,
+            });
+            generaicDateHandle();
           }
-          console.log('修改结果', res);
-        }),
+        })
       )
+      // eslint-disable-next-line handle-callback-err
       .catch(err => {
-        console.log(err);
+        Alert.alert('提示', '盘点失败', [{text: '确认'}], {
+          cancelable: false,
+        });
       });
-    console.log('commit数据', newData);
   };
 
   const handleDelCard = id => {
@@ -115,10 +123,9 @@ const RecordTab = () => {
             Alert.alert('提示', '删除成功', [{text: '确认'}], {
               cancelable: false,
             });
-            fetchData();
+            generaicDateHandle();
           }
-          console.log('删除结果', res);
-        }),
+        })
       )
       .catch(err => {
         console.log(err);
@@ -148,18 +155,15 @@ const RecordTab = () => {
       })
         .then(response => response.json())
         .then(data => {
-          console.log(data);
           if (data.code === 200) {
             resolve(data.data.content);
           }
         })
         .catch(error => {
-          console.error(error);
           reject(error);
         });
     });
   };
-
   const sortDesc = source => {
     const len = source.length;
     for (let i = 0; i < len - 1; i++) {
@@ -190,47 +194,47 @@ const RecordTab = () => {
     return source;
     //升
   };
-  useEffect(() => {
-    async function fetch() {
-      if (curBtn === 1) {
-        fetchData();
-        const res = await getData();
-        setData([...res]);
-      }
-      if (curBtn === 2) {
-        const res = await getData();
-        const highStock = res.filter(item => item.stock > 8);
-        setRefreshing(false);
-        setData([...highStock]);
-      }
-      if (curBtn === 3) {
-        const res = await getData();
-        const normalStock = res.filter(
-          item => item.stock > 3 && item.stock <= 8,
-        );
-        setRefreshing(false);
-        setData([...normalStock]);
-      }
-      if (curBtn === 4) {
-        const res = await getData();
-        const lowStock = res.filter(item => item.stock >= 0 && item.stock <= 3);
-        setRefreshing(false);
-        setData([...lowStock]);
-      }
-      if (curBtn === 5) {
-        const res = await getData();
-        const sortRes = sortDesc(res);
-        setRefreshing(false);
-        setData([...sortRes]);
-      }
-      if (curBtn === 6) {
-        const res = await getData();
-        const sortRes = sortAsc(res);
-        setRefreshing(false);
-        setData([...sortRes]);
-      }
+
+  const generaicDateHandle = async () => {
+    if (curBtn === 1) {
+      fetchData();
+      const res = await getData();
+      setData([...res]);
     }
-    fetch();
+    if (curBtn === 2) {
+      const res = await getData();
+      const highStock = res.filter(item => item.stock > 8);
+      setRefreshing(false);
+      setData([...highStock]);
+    }
+    if (curBtn === 3) {
+      const res = await getData();
+      const normalStock = res.filter(item => item.stock > 3 && item.stock <= 8);
+      setRefreshing(false);
+      setData([...normalStock]);
+    }
+    if (curBtn === 4) {
+      const res = await getData();
+      const lowStock = res.filter(item => item.stock >= 0 && item.stock <= 3);
+      setRefreshing(false);
+      setData([...lowStock]);
+    }
+    if (curBtn === 5) {
+      const res = await getData();
+      const sortRes = sortDesc(res);
+      setRefreshing(false);
+      setData([...sortRes]);
+    }
+    if (curBtn === 6) {
+      const res = await getData();
+      const sortRes = sortAsc(res);
+      setRefreshing(false);
+      setData([...sortRes]);
+    }
+  };
+  useEffect(() => {
+    generaicDateHandle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [curBtn]);
   return (
     <KeyboardAvoidingView style={styles.container}>

@@ -4,17 +4,16 @@ import {View, StyleSheet, Text, TouchableOpacity, Alert} from 'react-native';
 import CardComponent from '../../components/CardComponent';
 const InfoStack = ({route, navigation}) => {
   const [data, setData] = useState();
-  const [barcodes, setBarcodes] = useState(route.params.barcodes);
+  const [barcodes] = useState(route.params.barcodes);
   useEffect(() => {
     if (!barcodes) {
       return;
     }
-    console.log('barcodes', barcodes);
     fetch(
       `http://47.109.111.138:8888/product/page?keywords=${barcodes}&pageNum=1&pageSize=300`,
       {
         method: 'GET',
-      },
+      }
     )
       .then(response =>
         response.json().then(res => {
@@ -22,8 +21,7 @@ const InfoStack = ({route, navigation}) => {
             console.log('res.data.content', res.data.content[0]);
             setData(res.data.content[0]);
           }
-          console.log('搜索数据', res);
-        }),
+        })
       )
       .catch(err => {
         console.log(err);
@@ -31,7 +29,6 @@ const InfoStack = ({route, navigation}) => {
   }, [barcodes]);
   //   #FF7A22
   const handleSaveCard = newData => {
-    console.log('newData', newData);
     fetch('http://47.109.111.138:8888/product/edit', {
       method: 'PUT',
       headers: {
@@ -50,14 +47,18 @@ const InfoStack = ({route, navigation}) => {
       .then(response =>
         response.json().then(res => {
           if (res.code === 200) {
-            console.log('修改结果', res);
+            Alert.alert('提示', '盘点成功', [{text: '确认'}], {
+              cancelable: false,
+            });
           }
-        })
+        }),
       )
+      // eslint-disable-next-line handle-callback-err
       .catch(err => {
-        console.log(err);
+        Alert.alert('提示', '盘点失败', [{text: '确认'}], {
+          cancelable: false,
+        });
       });
-    console.log('commit数据', newData);
   };
 
   const handleDelCard = id => {
@@ -71,8 +72,7 @@ const InfoStack = ({route, navigation}) => {
               cancelable: false,
             });
           }
-          console.log('删除结果', res);
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -85,61 +85,8 @@ const InfoStack = ({route, navigation}) => {
           item={{...data}}
           onSave={newData => handleSaveCard(newData)}
           onDel={id => handleDelCard(id)}
+          cancelDisable={true}
         />
-        {/* <View
-          style={{
-            ...styles.infoCard,
-            backgroundColor:
-              data[0]?.stock >= 0 && data[0]?.stock <= 3
-                ? 'white'
-                : data[0]?.stock > 3 && data[0]?.stock <= 8
-                ? 'white'
-                : 'white',
-          }}>
-          <Text style={{fontSize: 30, color: 'black', marginLeft: 12}}>
-            详细信息
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              height: 20,
-              justifyContent: 'center',
-              alignContent: 'center',
-              marginBottom: 2,
-              marginLeft: 14,
-            }}>
-            <View
-              style={{
-                backgroundColor:
-                  data[0]?.stock >= 0 && data[0]?.stock <= 3
-                    ? '#FF7A22'
-                    : data[0]?.stock > 3 && data[0]?.stock <= 8
-                    ? 'green'
-                    : 'red',
-                width: 12,
-                height: 12,
-                borderRadius: 6,
-                marginTop: 3,
-              }}
-            />
-            <Text>
-              {data[0]?.stock >= 0 && data[0]?.stock <= 3
-                ? '库存紧张'
-                : data[0]?.stock > 3 && data[0]?.stock <= 8
-                ? '库存正常'
-                : '库存过高'}
-            </Text>
-          </View>
-          <Text style={styles.buttonText}>商品条码：{data[0]?.code}</Text>
-          <Text style={styles.buttonText}>商品名称：{data[0]?.name}</Text>
-          <Text style={styles.buttonText}>商品库存：{data[0]?.stock}</Text>
-          <Text style={styles.buttonText}>库存金额：{data[0]?.total}</Text>
-          <Text style={styles.buttonText}>商品进价：{data[0]?.cost}</Text>
-          <Text style={styles.buttonText}>市场价格：{data[0]?.sell}</Text>
-          <Text style={styles.buttonText}>
-            商品利差：{(data[0]?.sell - data[0]?.cost).toFixed(2)}
-          </Text>
-        </View> */}
         <View
           style={{
             width: 250,
