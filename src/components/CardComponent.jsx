@@ -159,6 +159,14 @@ const CardComponent = ({item, onSave, onDel}) => {
           value={String(sell)}
         />
       </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+        }}>
+        <Text>利润:{(sell - cost).toFixed(2)}</Text>
+      </View>
       <View style={styles.btnContainer}>
         <TouchableOpacity style={styles.button} onPress={() => onHandleDel()}>
           <Text style={styles.buttonText}>删除</Text>

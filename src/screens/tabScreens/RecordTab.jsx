@@ -11,6 +11,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Alert,
+  ScrollView,
 } from 'react-native';
 import CardComponent from '../../components/CardComponent';
 
@@ -124,29 +125,21 @@ const RecordTab = () => {
       });
   };
   const [btns, setBtns] = useState([
-    {name: '全部', active: true},
-    {name: '高库存', active: false},
-    {name: '正常', active: false},
-    {name: '低库存', active: false},
+    {id: 1, name: '全部', active: true},
+    {id: 2, name: '高库存', active: false},
+    {id: 3, name: '正常', active: false},
+    {id: 4, name: '低库存', active: false},
+    {id: 5, name: '利润降序', active: false},
+    {id: 6, name: '利润升序', active: false},
   ]);
   const [curBtn, setCurBtn] = useState('');
-  const handleActive = name => {
-    const reBtns = btns.map(item => {
-      if (item.name === name) {
-        const reItem = {
-          name: item.name,
-          active: true,
-        };
-        return reItem;
-      } else {
-        return {
-          name: item.name,
-          active: false,
-        };
-      }
+  const handleActive = id => {
+    setRefreshing(true);
+    btns.forEach(item => {
+      item.id === id ? (item.active = true) : (item.active = false);
     });
-    setCurBtn(name);
-    setBtns([...reBtns]);
+    setCurBtn(id);
+    setBtns([...btns]);
   };
   const getData = () => {
     return new Promise((resolve, reject) => {
@@ -166,31 +159,79 @@ const RecordTab = () => {
         });
     });
   };
+
+  const sortDesc = source => {
+    console.log('source', source);
+    const len = source.length;
+    for (let i = 0; i < len - 1; i++) {
+      for (let j = 0; j < len - 1 - i; j++) {
+        if (
+          source[j].sell - source[j].cost <
+          source[j + 1].sell - source[j + 1].cost
+        ) {
+          [source[j], source[j + 1]] = [source[j + 1], source[j]];
+        }
+      }
+    }
+    console.log('Sort', source);
+    return source;
+    //降
+  };
+  const sortAsc = source => {
+    console.log('source', source);
+    const len = source.length;
+    for (let i = 0; i < len - 1; i++) {
+      for (let j = 0; j < len - 1 - i; j++) {
+        if (
+          source[j].sell - source[j].cost >
+          source[j + 1].sell - source[j + 1].cost
+        ) {
+          [source[j], source[j + 1]] = [source[j + 1], source[j]];
+        }
+      }
+    }
+    console.log('Sort', source);
+    return source;
+    //升
+  };
   useEffect(() => {
     async function fetch() {
-      if (curBtn === '全部') {
+      if (curBtn === 1) {
         fetchData();
         const res = await getData();
         setData([...res]);
       }
-      if (curBtn === '高库存') {
+      if (curBtn === 2) {
         const res = await getData();
         const highStock = res.filter(item => item.stock > 8);
+        setRefreshing(false);
         setData([...highStock]);
       }
-      if (curBtn === '正常') {
+      if (curBtn === 3) {
         const res = await getData();
         const normalStock = res.filter(
           item => item.stock > 3 && item.stock <= 8,
         );
+        setRefreshing(false);
         setData([...normalStock]);
       }
-      if (curBtn === '低库存') {
+      if (curBtn === 4) {
         const res = await getData();
-        const normalStock = res.filter(
-          item => item.stock >= 0 && item.stock <= 3,
-        );
-        setData([...normalStock]);
+        const lowStock = res.filter(item => item.stock >= 0 && item.stock <= 3);
+        setRefreshing(false);
+        setData([...lowStock]);
+      }
+      if (curBtn === 5) {
+        const res = await getData();
+        const sortRes = sortDesc(res);
+        setRefreshing(false);
+        setData([...sortRes]);
+      }
+      if (curBtn === 6) {
+        const res = await getData();
+        const sortRes = sortAsc(res);
+        setRefreshing(false);
+        setData([...sortRes]);
       }
     }
     fetch();
@@ -212,22 +253,26 @@ const RecordTab = () => {
           </TouchableOpacity>
         </View>
         <View style={styles.filterBar}>
-          {btns.map(item => {
-            return (
-              <TouchableOpacity
-                style={{
-                  marginLeft: 10,
-                  backgroundColor: item.active ? 'red' : 'gray',
-                  borderRadius: 5,
-                  paddingVertical: 10,
-                  paddingHorizontal: 20,
-                }}
-                onPress={() => handleActive(item.name)}
-                key={item.name}>
-                <Text style={styles.buttonText}>{item.name}</Text>
-              </TouchableOpacity>
-            );
-          })}
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            {btns.map(item => {
+              return (
+                <TouchableOpacity
+                  activeOpacity={0.2}
+                  pressDuration={0.1}
+                  style={{
+                    marginLeft: 10,
+                    backgroundColor: item.active ? 'red' : 'gray',
+                    borderRadius: 5,
+                    paddingVertical: 10,
+                    paddingHorizontal: 20,
+                  }}
+                  onPress={() => handleActive(item.id)}
+                  key={item.name}>
+                  <Text style={styles.buttonText}>{item.name}</Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
         </View>
         <View style={styles.list}>
           <FlatList
