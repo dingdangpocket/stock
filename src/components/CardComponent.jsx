@@ -9,6 +9,7 @@ import {
   StyleSheet,
 } from 'react-native';
 const CardComponent = ({item, onSave, onDel}) => {
+  console.log('III', item);
   let MainWidth = Dimensions.get('window').width;
   const INPUT = {
     width: MainWidth * 0.65,
@@ -127,7 +128,7 @@ const CardComponent = ({item, onSave, onDel}) => {
           style={INPUT}
           placeholder="库存金额"
           onChangeText={setTotal}
-          value={String(stock * cost)}
+          value={String((stock * cost).toFixed(2))}
           editable={false}
         />
       </View>
@@ -165,7 +166,9 @@ const CardComponent = ({item, onSave, onDel}) => {
           alignItems: 'center',
           justifyContent: 'space-around',
         }}>
-        <Text>利润:{(sell - cost).toFixed(2)}</Text>
+        <Text style={{color: (sell - cost).toFixed(2) > 0 ? 'green' : 'red'}}>
+          利润:{(sell - cost).toFixed(2)}
+        </Text>
       </View>
       <View style={styles.btnContainer}>
         <TouchableOpacity style={styles.button} onPress={() => onHandleDel()}>

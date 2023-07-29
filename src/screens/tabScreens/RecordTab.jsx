@@ -161,7 +161,6 @@ const RecordTab = () => {
   };
 
   const sortDesc = source => {
-    console.log('source', source);
     const len = source.length;
     for (let i = 0; i < len - 1; i++) {
       for (let j = 0; j < len - 1 - i; j++) {
@@ -173,12 +172,10 @@ const RecordTab = () => {
         }
       }
     }
-    console.log('Sort', source);
     return source;
     //降
   };
   const sortAsc = source => {
-    console.log('source', source);
     const len = source.length;
     for (let i = 0; i < len - 1; i++) {
       for (let j = 0; j < len - 1 - i; j++) {
@@ -190,7 +187,6 @@ const RecordTab = () => {
         }
       }
     }
-    console.log('Sort', source);
     return source;
     //升
   };
@@ -261,7 +257,7 @@ const RecordTab = () => {
                   pressDuration={0.1}
                   style={{
                     marginLeft: 10,
-                    backgroundColor: item.active ? 'red' : 'gray',
+                    backgroundColor: item.active ? 'rgb(60,60,60)' : 'gray',
                     borderRadius: 5,
                     paddingVertical: 10,
                     paddingHorizontal: 20,

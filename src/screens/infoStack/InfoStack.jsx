@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, Alert} from 'react-native';
+import CardComponent from '../../components/CardComponent';
 const InfoStack = ({route, navigation}) => {
   const [data, setData] = useState();
   const [barcodes, setBarcodes] = useState(route.params.barcodes);
@@ -13,25 +14,79 @@ const InfoStack = ({route, navigation}) => {
       `http://47.109.111.138:8888/product/page?keywords=${barcodes}&pageNum=1&pageSize=300`,
       {
         method: 'GET',
-      }
+      },
     )
       .then(response =>
         response.json().then(res => {
           if (res.code === 200) {
-            setData(res.data.content);
+            console.log('res.data.content', res.data.content[0]);
+            setData(res.data.content[0]);
           }
           console.log('搜索数据', res);
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
       });
   }, [barcodes]);
   //   #FF7A22
+  const handleSaveCard = newData => {
+    console.log('newData', newData);
+    fetch('http://47.109.111.138:8888/product/edit', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: newData.id,
+        code: newData.code,
+        name: newData.name,
+        stock: newData.stock,
+        cost: newData.cost,
+        sell: newData.sell,
+        total: newData.total,
+      }),
+    })
+      .then(response =>
+        response.json().then(res => {
+          if (res.code === 200) {
+            console.log('修改结果', res);
+          }
+        })
+      )
+      .catch(err => {
+        console.log(err);
+      });
+    console.log('commit数据', newData);
+  };
+
+  const handleDelCard = id => {
+    fetch(`http://47.109.111.138:8888/product/remove/${id}`, {
+      method: 'DELETE',
+    })
+      .then(response =>
+        response.json().then(res => {
+          if (res.code === 200) {
+            Alert.alert('提示', '删除成功', [{text: '确认'}], {
+              cancelable: false,
+            });
+          }
+          console.log('删除结果', res);
+        })
+      )
+      .catch(err => {
+        console.log(err);
+      });
+  };
   return (
     data && (
       <View style={styles.container}>
-        <View
+        <CardComponent
+          item={{...data}}
+          onSave={newData => handleSaveCard(newData)}
+          onDel={id => handleDelCard(id)}
+        />
+        {/* <View
           style={{
             ...styles.infoCard,
             backgroundColor:
@@ -84,12 +139,11 @@ const InfoStack = ({route, navigation}) => {
           <Text style={styles.buttonText}>
             商品利差：{(data[0]?.sell - data[0]?.cost).toFixed(2)}
           </Text>
-        </View>
+        </View> */}
         <View
           style={{
             width: 250,
             height: 90,
-            // backgroundColor: 'red',
             flexDirection: 'row',
             alignContent: 'center',
             justifyContent: 'center',
