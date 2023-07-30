@@ -19,7 +19,7 @@ const DataTab = () => {
               setData(res.data.content);
             }
             // console.log('列表数据', res);
-          }),
+          })
         )
         .catch(err => {
           console.log(err);
@@ -28,7 +28,7 @@ const DataTab = () => {
         // 在组件失去焦点时执行一些操作
         console.log('MyScreen is unfocused');
       };
-    }, [])
+    }, []),
   );
   const totalStock = useMemo(() => {
     const result = data.reduce((sum, next) => {
