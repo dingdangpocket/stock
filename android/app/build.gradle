@@ -77,6 +77,11 @@ def enableProguardInReleaseBuilds = false
  * this variant is about 6MiB larger per architecture than default.
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
+project.ext.react = [
+        entryFile: "index.js",
+        enableHermes: false,  // clean and rebuild if changing
+]
+def enableHermes = project.ext.react.get("enableHermes", false)
 
 /**
  * Private function to get the list of Native Architectures you want to build.
@@ -184,11 +189,18 @@ dependencies {
     }
 
     debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}")
-    if (hermesEnabled.toBoolean()) {
-        implementation("com.facebook.react:hermes-android")
-    } else {
-        implementation jscFlavor
-    }
+    // if (hermesEnabled.toBoolean()) {
+    //     implementation("com.facebook.react:hermes-android")
+    // } else {
+    //     implementation jscFlavor
+    // }
+     if (enableHermes) {
+            def hermesPath = "../../node_modules/hermes-engine/android/"
+            debugImplementation files(hermesPath + "hermes-debug.aar")
+            releaseImplementation files(hermesPath + "hermes-release.aar")
+        } else {
+            implementation jscFlavor
+        }
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

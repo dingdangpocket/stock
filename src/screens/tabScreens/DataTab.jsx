@@ -18,8 +18,8 @@ const DataTab = () => {
             if (res.code === 200) {
               setData(res.data.content);
             }
-            console.log('列表数据', res);
-          })
+            // console.log('列表数据', res);
+          }),
         )
         .catch(err => {
           console.log(err);
@@ -28,10 +28,9 @@ const DataTab = () => {
         // 在组件失去焦点时执行一些操作
         console.log('MyScreen is unfocused');
       };
-    }, []),
+    }, [])
   );
   const totalStock = useMemo(() => {
-    console.log('data', data);
     const result = data.reduce((sum, next) => {
       return sum + next.stock;
     }, 0);
@@ -39,18 +38,28 @@ const DataTab = () => {
   }, [data]);
 
   const total = useMemo(() => {
-    console.log('data', data);
     const result = data.reduce((sum, next) => {
       return sum + next.total;
     }, 0);
     return result;
   }, [data]);
+
+  const totalSell = useMemo(() => {
+    const result = data.reduce((sum, next) => {
+      return sum + next.stock * next.sell;
+    }, 0);
+    return result;
+  }, [data]);
   return (
     <View style={styles.container}>
-      <Text style={{fontSize: 38, color: 'rgb(85,85,85)'}}>总条数</Text>
-      <Text style={{fontSize: 37}}>{totalStock}</Text>
       <Text style={{fontSize: 38, color: 'rgb(85,85,85)'}}>库存金额</Text>
       <Text style={{fontSize: 37}}>￥{total.toFixed(2)}</Text>
+      <Text style={{fontSize: 38, color: 'rgb(85,85,85)'}}>预估利润</Text>
+      <Text style={{fontSize: 37}}>
+        ￥{(totalSell.toFixed(2) - total.toFixed(2)).toFixed(2)}
+      </Text>
+      <Text style={{fontSize: 38, color: 'rgb(85,85,85)'}}>总条数</Text>
+      <Text style={{fontSize: 37}}>{totalStock}</Text>
     </View>
   );
 };
