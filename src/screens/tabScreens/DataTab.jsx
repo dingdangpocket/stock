@@ -35,7 +35,7 @@ const DataTab = () => {
             if (res.code === 200) {
               setData(res.data.content);
             }
-          })
+          }),
         )
         .catch(err => {
           console.log(err);
@@ -43,7 +43,7 @@ const DataTab = () => {
       return () => {
         console.log('MyScreen is unfocused');
       };
-    }, []),
+    }, [])
   );
   const totalStock = useMemo(() => {
     const result = data.reduce((sum, next) => {
