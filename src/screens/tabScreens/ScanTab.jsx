@@ -59,7 +59,6 @@ const ScanTab = ({navigation}) => {
       .then(response =>
         response.json().then(res => {
           if (res.code === 200) {
-            console.log('新增结果', res);
             Alert.alert('保存成功');
             setModalVisible(false);
           } else {

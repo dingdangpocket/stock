@@ -13,7 +13,7 @@ const InfoStack = ({route, navigation}) => {
       `http://47.109.111.138:8888/product/page?keywords=${barcodes}&pageNum=1&pageSize=300`,
       {
         method: 'GET',
-      },
+      }
     )
       .then(response =>
         response.json().then(res => {
@@ -21,13 +21,12 @@ const InfoStack = ({route, navigation}) => {
             console.log('res.data.content', res.data.content[0]);
             setData(res.data.content[0]);
           }
-        }),
+        })
       )
       .catch(err => {
         console.log(err);
       });
   }, [barcodes]);
-  //   #FF7A22
   const handleSaveCard = newData => {
     fetch('http://47.109.111.138:8888/product/edit', {
       method: 'PUT',
@@ -51,7 +50,7 @@ const InfoStack = ({route, navigation}) => {
               cancelable: false,
             });
           }
-        })
+        }),
       )
       // eslint-disable-next-line handle-callback-err
       .catch(err => {
@@ -72,7 +71,7 @@ const InfoStack = ({route, navigation}) => {
               cancelable: false,
             });
           }
-        })
+        }),
       )
       .catch(err => {
         console.log(err);

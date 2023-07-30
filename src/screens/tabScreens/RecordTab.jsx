@@ -28,7 +28,7 @@ const RecordTab = () => {
       `http://47.109.111.138:8888/product/page?keywords=${search}&pageNum=1&pageSize=300`,
       {
         method: 'GET',
-      },
+      }
     )
       .then(response =>
         response.json().then(res => {
@@ -36,7 +36,7 @@ const RecordTab = () => {
             setData(res.data.content);
             setRefreshing(false);
           }
-        }),
+        })
       )
       .catch(err => {
         console.log(err);
@@ -68,7 +68,7 @@ const RecordTab = () => {
             setRefreshing(false);
             return res;
           }
-        }),
+        })
       )
       .catch(err => {
         console.log(err);
@@ -103,7 +103,7 @@ const RecordTab = () => {
             });
             generaicDateHandle();
           }
-        }),
+        })
       )
       // eslint-disable-next-line handle-callback-err
       .catch(err => {
@@ -125,7 +125,7 @@ const RecordTab = () => {
             });
             generaicDateHandle();
           }
-        }),
+        })
       )
       .catch(err => {
         console.log(err);

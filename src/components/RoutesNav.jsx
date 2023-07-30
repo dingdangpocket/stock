@@ -4,22 +4,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {containStackRoutes} from 'src/router/index';
 import HomeTabRoutes from 'src/components/HomeTabsRoutes';
 const Stack = createStackNavigator();
-const linking = {
-  prefixes: ['foundation://'],
-  config: {
-    initialRouteName: 'HomeTabs',
-    screens: {
-      InfoScreen: {
-        path: 'InfoScreen/:id',
-      },
-    },
-  },
-};
-//linking配置交给NavigationContainer；
-
 const RoutesNav = () => {
   return (
-    <NavigationContainer linking={linking}>
+    <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
           name="HomeTabs"

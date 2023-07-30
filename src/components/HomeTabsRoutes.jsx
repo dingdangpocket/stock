@@ -25,7 +25,6 @@ const IconSet = {
   unActiveDataTab: <DataIconUnActive width="82%" height="82%" />,
 };
 const HomeTabsRoutes = () => {
-  const {state} = useContext(ContentContext);
   const HomeTabRoutesConfig = [
     {
       name: 'RecordTab',
@@ -46,19 +45,16 @@ const HomeTabsRoutes = () => {
       tabBarBadge: null,
     },
   ];
-  // const {dispatch} = useContext(ContentContext);
   return (
     <Tab.Navigator
       initialRouteName="HomeTab"
       detachInactiveScreens={false}
       lazy={false}
-      // sceneContainerStyle={{backgroundColor:"red"}}
       tabBarOptions={{
         activeTintColor: 'rgba(10,10,10,0.9)',
         inactiveTintColor: 'rgba(10,10,10,0.5)',
         labelStyle: {fontSize: 12},
         style: {height: 55},
-        // activeBackgroundColor: "rgba(10,10,0,0.9)",
       }}
       screenOptions={({route}) => ({
         tabBarIcon: ({focused}) => {

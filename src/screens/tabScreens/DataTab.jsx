@@ -8,7 +8,6 @@ const DataTab = () => {
   const [data, setData] = useState([]);
   useFocusEffect(
     React.useCallback(() => {
-      // 在组件获得焦点时执行一些操作
       console.log('MyScreen is focused');
       fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=300', {
         method: 'GET',
@@ -18,17 +17,15 @@ const DataTab = () => {
             if (res.code === 200) {
               setData(res.data.content);
             }
-            // console.log('列表数据', res);
-          })
+          }),
         )
         .catch(err => {
           console.log(err);
         });
       return () => {
-        // 在组件失去焦点时执行一些操作
         console.log('MyScreen is unfocused');
       };
-    }, []),
+    }, [])
   );
   const totalStock = useMemo(() => {
     const result = data.reduce((sum, next) => {

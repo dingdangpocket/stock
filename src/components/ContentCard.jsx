@@ -1,11 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Text, Dimensions} from 'react-native';
-import {useEffect} from 'react';
 const ContentCard = props => {
-  useEffect(() => {
-    console.log('props', props);
-  }, [props]);
-
   return (
     <View style={styles.cardContainer} key={props.item.id}>
       <View style={styles.titleArea}>
@@ -33,13 +28,11 @@ const ContentCard = props => {
     </View>
   );
 };
-let MainHeight = Dimensions.get('window').height;
 let MainWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   cardContainer: {
     width: MainWidth * 0.9,
     height: 155,
-    // backgroundColor: 'red',
     marginTop: 10,
   },
   titleArea: {

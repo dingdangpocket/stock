@@ -10,9 +10,6 @@ import {scanBarcodes, BarcodeFormat} from 'vision-camera-code-scanner';
 import * as REA from 'react-native-reanimated';
 import {BarCode} from 'src/icons';
 const ScanStack = ({navigation}) => {
-  useEffect(() => {
-    console.log('99');
-  }, []);
   const [hasPermission, setHasPermission] = useState(false);
   const devices = useCameraDevices();
   const device = devices.back;

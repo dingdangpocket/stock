@@ -165,11 +165,6 @@ const Login = () => {
             onPress={onLogin}
           />
         </View>
-        {/* <ImageBackground
-          style={{flex: 1}}
-          resizeMode="cover"
-          source={require('/src/static/C1.jpg')}
-        /> */}
       </View>
     </KeyboardAvoidingView>
   );
