@@ -7,7 +7,7 @@
  * @format
  */
 
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {View} from 'react-native';
 import {ContentContext} from './src/context/ContextProvider';
 import RoutesNav from './src/components/RoutesNav';

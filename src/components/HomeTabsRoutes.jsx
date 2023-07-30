@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import RecoedTab from 'src/screens/tabScreens/RecordTab';
+import RecordTab from 'src/screens/tabScreens/RecordTab';
 import ScanTab from 'src/screens/tabScreens/ScanTab';
 import DataTab from 'src/screens/tabScreens/DataTab';
 import {ContentContext} from 'src/context/ContextProvider';
@@ -17,8 +17,8 @@ import {
 } from 'src/icons';
 const Tab = createBottomTabNavigator();
 const IconSet = {
-  activeRecoedTab: <RecordIconActive width="75%" height="75%" />,
-  unActiveRecoedTab: <RecordIconUnActive width="75%" height="75%" />,
+  activeRecordTab: <RecordIconActive width="75%" height="75%" />,
+  unActiveRecordTab: <RecordIconUnActive width="75%" height="75%" />,
   activeScanTab: <ScanIconActive width="82%" height="82%" />,
   unActiveScanTab: <ScanIconUnActive width="75%" height="75%" />,
   activeDataTab: <DataIconActive width="78%" height="78%" />,
@@ -28,8 +28,8 @@ const HomeTabsRoutes = () => {
   const {state} = useContext(ContentContext);
   const HomeTabRoutesConfig = [
     {
-      name: 'RecoedTab',
-      component: RecoedTab,
+      name: 'RecordTab',
+      component: RecordTab,
       option: {title: '记录'},
       tabBarBadge: null,
     },
@@ -37,7 +37,7 @@ const HomeTabsRoutes = () => {
       name: 'ScanTab',
       component: ScanTab,
       option: {title: '扫码'},
-      tabBarBadge: state.communityTabBarBadge,
+      tabBarBadge: null,
     },
     {
       name: 'DataTab',
