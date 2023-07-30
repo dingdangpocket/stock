@@ -4,20 +4,38 @@
 import React, {useState, useRef, useEffect, useMemo} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const DataTab = () => {
   const [data, setData] = useState([]);
+  const getToken = async key => {
+    try {
+      const value = await AsyncStorage.getItem(key);
+      if (value !== null) {
+        console.log('Data retrieved successfully: ', value);
+        return value;
+      } else {
+        console.log('No data found');
+      }
+    } catch (error) {
+      console.log('Error retrieving data: ', error);
+    }
+  };
   useFocusEffect(
     React.useCallback(() => {
       console.log('MyScreen is focused');
       fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=300', {
         method: 'GET',
+        headers: {
+          // satoken: getToken('satoken'),
+          'Content-Type': 'application/json',
+        },
       })
         .then(response =>
           response.json().then(res => {
             if (res.code === 200) {
               setData(res.data.content);
             }
-          }),
+          })
         )
         .catch(err => {
           console.log(err);
@@ -25,7 +43,7 @@ const DataTab = () => {
       return () => {
         console.log('MyScreen is unfocused');
       };
-    }, [])
+    }, []),
   );
   const totalStock = useMemo(() => {
     const result = data.reduce((sum, next) => {

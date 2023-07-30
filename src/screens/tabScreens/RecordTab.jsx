@@ -14,10 +14,24 @@ import {
   ScrollView,
 } from 'react-native';
 import CardComponent from '../../components/CardComponent';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const RecordTab = () => {
   const [data, setData] = useState([]);
   const [search, onChangeSearch] = useState('');
   const [refreshing, setRefreshing] = useState(false);
+  const getToken = async key => {
+    try {
+      const value = await AsyncStorage.getItem(key);
+      if (value !== null) {
+        console.log('Data retrieved successfully: ', value);
+        return value;
+      } else {
+        console.log('No data found');
+      }
+    } catch (error) {
+      console.log('Error retrieving data: ', error);
+    }
+  };
   const handleQuery = () => {
     setCurBtn(1);
     btns.forEach(item => {
@@ -28,15 +42,17 @@ const RecordTab = () => {
       `http://47.109.111.138:8888/product/page?keywords=${search}&pageNum=1&pageSize=300`,
       {
         method: 'GET',
-      }
+        // headers: {satoken: getToken('satoken')},
+      },
     )
       .then(response =>
         response.json().then(res => {
           if (res.code === 200) {
+            console.log('T', res);
             setData(res.data.content);
             setRefreshing(false);
           }
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -60,6 +76,7 @@ const RecordTab = () => {
     setRefreshing(true);
     fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=300', {
       method: 'GET',
+      // headers: {satoken: getToken('satoken')},
     })
       .then(response =>
         response.json().then(res => {
@@ -68,7 +85,7 @@ const RecordTab = () => {
             setRefreshing(false);
             return res;
           }
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -84,6 +101,7 @@ const RecordTab = () => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        // satoken: getToken('satoken'),
       },
       body: JSON.stringify({
         id: newData.id,
@@ -103,7 +121,7 @@ const RecordTab = () => {
             });
             generaicDateHandle();
           }
-        })
+        }),
       )
       // eslint-disable-next-line handle-callback-err
       .catch(err => {
@@ -116,6 +134,7 @@ const RecordTab = () => {
   const handleDelCard = id => {
     fetch(`http://47.109.111.138:8888/product/remove/${id}`, {
       method: 'DELETE',
+      // satoken: getToken('satoken'),
     })
       .then(response =>
         response.json().then(res => {
@@ -125,7 +144,7 @@ const RecordTab = () => {
             });
             generaicDateHandle();
           }
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -152,6 +171,7 @@ const RecordTab = () => {
     return new Promise((resolve, reject) => {
       fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=300', {
         method: 'GET',
+        // satoken: getToken('satoken'),
       })
         .then(response => response.json())
         .then(data => {

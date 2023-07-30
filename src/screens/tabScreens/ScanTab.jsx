@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {Camera} from 'react-native-vision-camera';
 import {BarCode, AddGoods} from 'src/icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const ScanTab = ({navigation}) => {
   const handleQueryInfo = () => {
     navigation.navigate('ScanStack');
@@ -40,11 +41,25 @@ const ScanTab = ({navigation}) => {
   const [field4, setField4] = useState('');
   const [field5, setField5] = useState('');
   const [field6, setField6] = useState('');
+  const getToken = async key => {
+    try {
+      const value = await AsyncStorage.getItem(key);
+      if (value !== null) {
+        console.log('Data retrieved successfully: ', value);
+        return value;
+      } else {
+        console.log('No data found');
+      }
+    } catch (error) {
+      console.log('Error retrieving data: ', error);
+    }
+  };
   const handleSave = () => {
     console.log('保存数据:', field1, field2, field3, field4, field5, field6);
     fetch('http://47.109.111.138:8888/product/create', {
       method: 'POST',
       headers: {
+        // satoken: getToken('satoken'),
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
