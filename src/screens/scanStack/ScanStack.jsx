@@ -1,5 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, showToast} from 'react-native';
+import {StyleSheet, View, Dimensions} from 'react-native';
 import {
   useCameraDevices,
   Camera,
@@ -7,7 +8,7 @@ import {
 } from 'react-native-vision-camera';
 import {scanBarcodes, BarcodeFormat} from 'vision-camera-code-scanner';
 import * as REA from 'react-native-reanimated';
-import BarcodeScannerComp from '../../components/BarcodeScannerComp';
+import {BarCode} from 'src/icons';
 const ScanStack = ({navigation}) => {
   useEffect(() => {
     console.log('99');
@@ -35,10 +36,16 @@ const ScanStack = ({navigation}) => {
       return;
     }
   }, [barcodes, navigation]);
+  let MainWidth = Dimensions.get('window').width;
   return (
     device != null &&
     hasPermission && (
-      <>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
         <Camera
           style={StyleSheet.absoluteFill}
           device={device}
@@ -46,24 +53,39 @@ const ScanStack = ({navigation}) => {
           frameProcessor={frameProcessor}
           frameProcessorFps={5}
         />
-      </>
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            width: MainWidth,
+            height: 200,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              width: 90,
+              height: 90,
+              marginTop: 880,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <BarCode width="50%" height="50%" />
+          </View>
+        </View>
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            width: MainWidth,
+            height: 264,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+          }}
+        />
+      </View>
     )
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  camera: {
-    width: '100%',
-    height: '100%',
-  },
-  barcodeText: {
-    marginTop: 20,
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});
 export default ScanStack;

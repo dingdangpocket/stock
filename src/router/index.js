@@ -14,7 +14,11 @@ const RecordStackRoutes = [
   {
     name: 'ScanStack',
     component: ScanStack,
-    option: {title: '扫码查询'},
+    option: {
+      title: '扫码查询',
+      backgroundColor: 'rgba(0,0,0,0.8)',
+      color: 'rgb(210,210,210)',
+    },
   },
   {
     name: 'InfoStack',

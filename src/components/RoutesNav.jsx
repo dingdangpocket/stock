@@ -37,10 +37,12 @@ const RoutesNav = () => {
             <Stack.Screen
               key={item.name}
               name={item.name}
-              options={{
-                title: item.option.title,
-              }}
               component={item.component}
+              options={{
+                headerStyle: {backgroundColor: item.option.backgroundColor},
+                title: item.option.title,
+                headerTintColor: item.option.color,
+              }}
             />
           );
         })}
