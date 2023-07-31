@@ -10,7 +10,6 @@ import {
   Alert,
 } from 'react-native';
 const CardComponent = ({item, onSave, onDel, cancelDisable}) => {
-  console.log('item', item);
   let MainWidth = Dimensions.get('window').width;
   const INPUT = {
     width: MainWidth * 0.65,

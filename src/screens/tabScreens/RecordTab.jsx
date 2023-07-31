@@ -24,7 +24,7 @@ const RecordTab = () => {
     try {
       const value = await AsyncStorage.getItem(key);
       if (value !== null) {
-        console.log('Data retrieved successfully: ', value);
+        // console.log('Data retrieved successfully: ', value);
         return value;
       } else {
         console.log('No data found');
@@ -44,7 +44,7 @@ const RecordTab = () => {
       {
         method: 'GET',
         headers: {satoken: await getToken('satoken')},
-      }
+      },
     )
       .then(response =>
         response.json().then(res => {
@@ -52,14 +52,16 @@ const RecordTab = () => {
             setData(res.data.content);
             setRefreshing(false);
           }
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
       });
   };
   useEffect(() => {
+    console.log('11111111');
     fetchData();
+    handleRefresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
@@ -83,7 +85,7 @@ const RecordTab = () => {
         response.json().then(res => {
           setRefreshing(false);
           setData(res.data.content);
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -124,7 +126,7 @@ const RecordTab = () => {
               cancelable: false,
             });
           }
-        })
+        }),
       )
       // eslint-disable-next-line handle-callback-err
       .catch(err => {
@@ -147,7 +149,7 @@ const RecordTab = () => {
             });
             generaicDateHandle();
           }
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -161,7 +163,7 @@ const RecordTab = () => {
     {id: 5, name: '利润降序', active: false},
     {id: 6, name: '利润升序', active: false},
   ]);
-  const [curBtn, setCurBtn] = useState('');
+  const [curBtn, setCurBtn] = useState(1);
   const handleActive = id => {
     setRefreshing(true);
     btns.forEach(item => {
@@ -180,7 +182,6 @@ const RecordTab = () => {
         .then(response => response.json())
         .then(data => {
           if (data.code === 200) {
-            console.log('data', data);
             resolve(data.data.content);
           }
         })
@@ -221,8 +222,9 @@ const RecordTab = () => {
   };
   const generaicDateHandle = async () => {
     if (curBtn === 1) {
-      fetchData();
+      // fetchData();
       const res = await getData();
+      setRefreshing(false);
       setData([...res]);
     }
     if (curBtn === 2) {
@@ -272,24 +274,22 @@ const RecordTab = () => {
               satoken: await getToken('satoken'),
               'Content-Type': 'application/json',
             },
-          }
+          },
         )
           .then(response =>
             response.json().then(res => {
-              console.log('res!!', res);
               if (res.code === 200) {
                 setData([]);
                 setData([...res.data.content]);
               }
-            })
+            }),
           )
           .catch(err => {
             console.log(err);
           });
       };
-      console.log('1');
       asyncFetch();
-    }, [])
+    }, []),
   );
   return (
     <KeyboardAvoidingView style={styles.container}>
