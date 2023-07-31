@@ -32,7 +32,7 @@ const RecordTab = () => {
       console.log('Error retrieving data: ', error);
     }
   };
-  const handleQuery = () => {
+  const handleQuery = async () => {
     setCurBtn(1);
     btns.forEach(item => {
       item.id === 1 ? (item.active = true) : (item.active = false);
@@ -42,8 +42,8 @@ const RecordTab = () => {
       `http://47.109.111.138:8888/product/page?keywords=${search}&pageNum=1&pageSize=300`,
       {
         method: 'GET',
-        // headers: {satoken: getToken('satoken')},
-      }
+        headers: {satoken: await getToken('satoken')},
+      },
     )
       .then(response =>
         response.json().then(res => {
@@ -51,7 +51,7 @@ const RecordTab = () => {
             setData(res.data.content);
             setRefreshing(false);
           }
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -71,17 +71,17 @@ const RecordTab = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
-  const fetchData = () => {
+  const fetchData = async () => {
     setRefreshing(true);
     fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=350', {
       method: 'GET',
-      // headers: {satoken: getToken('satoken')},
+      headers: {satoken: await getToken('satoken')},
     })
       .then(response =>
         response.json().then(res => {
           setRefreshing(false);
           setData(res.data.content);
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -92,12 +92,12 @@ const RecordTab = () => {
     generaicDateHandle();
   };
 
-  const handleSaveCard = newData => {
+  const handleSaveCard = async newData => {
     fetch('http://47.109.111.138:8888/product/edit', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        // satoken: getToken('satoken'),
+        headers: {satoken: await getToken('satoken')},
       },
       body: JSON.stringify({
         id: newData.id,
@@ -117,7 +117,7 @@ const RecordTab = () => {
             });
             generaicDateHandle();
           }
-        })
+        }),
       )
       // eslint-disable-next-line handle-callback-err
       .catch(err => {
@@ -127,10 +127,10 @@ const RecordTab = () => {
       });
   };
 
-  const handleDelCard = id => {
+  const handleDelCard = async id => {
     fetch(`http://47.109.111.138:8888/product/remove/${id}`, {
       method: 'DELETE',
-      // satoken: getToken('satoken'),
+      headers: {satoken: await getToken('satoken')},
     })
       .then(response =>
         response.json().then(res => {
@@ -140,7 +140,7 @@ const RecordTab = () => {
             });
             generaicDateHandle();
           }
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -164,10 +164,10 @@ const RecordTab = () => {
     setBtns([...btns]);
   };
   const getData = () => {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=300', {
         method: 'GET',
-        // satoken: getToken('satoken'),
+        headers: {satoken: await getToken('satoken')},
       })
         .then(response => response.json())
         .then(data => {
@@ -210,7 +210,6 @@ const RecordTab = () => {
     return source;
     //升
   };
-
   const generaicDateHandle = async () => {
     if (curBtn === 1) {
       fetchData();

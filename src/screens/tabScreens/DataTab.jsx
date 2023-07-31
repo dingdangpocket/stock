@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {useState, useRef, useEffect, useMemo} from 'react';
+import React, {useState, useRef, useEffect, useCallback, useMemo} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -21,28 +21,33 @@ const DataTab = () => {
     }
   };
   useFocusEffect(
-    React.useCallback(() => {
-      console.log('MyScreen is focused');
-      fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=300', {
-        method: 'GET',
-        headers: {
-          // satoken: getToken('satoken'),
-          'Content-Type': 'application/json',
-        },
-      })
-        .then(response =>
-          response.json().then(res => {
-            if (res.code === 200) {
-              setData(res.data.content);
-            }
-          })
+    useCallback(() => {
+      const asyncFetch = async () => {
+        fetch(
+          'http://47.109.111.138:8888/product/page?pageNum=1&pageSize=300',
+          {
+            method: 'GET',
+            headers: {
+              satoken: await getToken('satoken'),
+              'Content-Type': 'application/json',
+            },
+          },
         )
-        .catch(err => {
-          console.log(err);
-        });
-      return () => {
-        console.log('MyScreen is unfocused');
+          .then(response =>
+            response.json().then(res => {
+              if (res.code === 200) {
+                setData(res.data.content);
+              }
+            }),
+          )
+          .catch(err => {
+            console.log(err);
+          });
       };
+      asyncFetch();
+      // return () => {
+      //   console.log('MyScreen is unfocused');
+      // };
     }, []),
   );
   const totalStock = useMemo(() => {

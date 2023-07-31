@@ -12,36 +12,57 @@ import {
 } from 'react-native';
 import CardComponent from '../../components/CardComponent';
 import {Alipay, WechatPay, BarCode, Back} from 'src/icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const InfoStack = ({route, navigation}) => {
   const [data, setData] = useState();
   const [barcodes] = useState(route.params.barcodes);
+  const getToken = async key => {
+    try {
+      const value = await AsyncStorage.getItem(key);
+      if (value !== null) {
+        console.log('Data retrieved successfully: ', value);
+        return value;
+      } else {
+        console.log('No data found');
+      }
+    } catch (error) {
+      console.log('Error retrieving data: ', error);
+    }
+  };
   useEffect(() => {
     if (!barcodes) {
       return;
     }
-    fetch(
-      `http://47.109.111.138:8888/product/page?keywords=${barcodes}&pageNum=1&pageSize=300`,
-      {
-        method: 'GET',
-      }
-    )
-      .then(response =>
-        response.json().then(res => {
-          if (res.code === 200) {
-            console.log('res.data.content', res.data.content[0]);
-            setData(res.data.content[0]);
-          }
-        })
+    const asyncFetch = async () => {
+      fetch(
+        `http://47.109.111.138:8888/product/page?keywords=${barcodes}&pageNum=1&pageSize=300`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            satoken: await getToken('satoken'),
+          },
+        }
       )
-      .catch(err => {
-        console.log(err);
-      });
+        .then(response =>
+          response.json().then(res => {
+            if (res.code === 200) {
+              setData(res.data.content[0]);
+            }
+          })
+        )
+        .catch(err => {
+          console.log(err);
+        });
+    };
+    asyncFetch();
   }, [barcodes]);
-  const handleSaveCard = newData => {
+  const handleSaveCard = async newData => {
     fetch('http://47.109.111.138:8888/product/edit', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        headers: {satoken: await getToken('satoken')},
       },
       body: JSON.stringify({
         id: newData.id,
@@ -60,7 +81,7 @@ const InfoStack = ({route, navigation}) => {
               cancelable: false,
             });
           }
-        }),
+        })
       )
       // eslint-disable-next-line handle-callback-err
       .catch(err => {
@@ -70,9 +91,10 @@ const InfoStack = ({route, navigation}) => {
       });
   };
 
-  const handleDelCard = id => {
+  const handleDelCard = async id => {
     fetch(`http://47.109.111.138:8888/product/remove/${id}`, {
       method: 'DELETE',
+      headers: {satoken: await getToken('satoken')},
     })
       .then(response =>
         response.json().then(res => {
@@ -81,7 +103,7 @@ const InfoStack = ({route, navigation}) => {
               cancelable: false,
             });
           }
-        }),
+        })
       )
       .catch(err => {
         console.log(err);

@@ -1,5 +1,3 @@
-/* eslint-disable handle-callback-err */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {
@@ -28,7 +26,7 @@ const ScanTab = ({navigation}) => {
       status = await Camera.getCameraPermissionStatus();
       if (status === 'denied') {
         Alert.alert(
-          'You will not be able to scan if you do not allow camera access',
+          'You will not be able to scan if you do not allow camera access'
         );
       }
     }
@@ -54,12 +52,12 @@ const ScanTab = ({navigation}) => {
       console.log('Error retrieving data: ', error);
     }
   };
-  const handleSave = () => {
+  const handleSave = async () => {
     console.log('保存数据:', field1, field2, field3, field4, field5, field6);
     fetch('http://47.109.111.138:8888/product/create', {
       method: 'POST',
       headers: {
-        // satoken: getToken('satoken'),
+        satoken: await getToken('satoken'),
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -74,9 +72,11 @@ const ScanTab = ({navigation}) => {
       .then(response =>
         response.json().then(res => {
           if (res.code === 200) {
+            console.log('Red', res);
             Alert.alert('保存成功');
             setModalVisible(false);
           } else {
+            console.log('Red', res);
             Alert.alert(
               '提示',
               '商品保存失败，请检查是否已经存在该商品',
@@ -87,6 +87,7 @@ const ScanTab = ({navigation}) => {
         })
       )
       .catch(err => {
+        console.log('err', err);
         Alert.alert(
           '提示',
           '商品保存失败，请检查是否已经存在该商品',
