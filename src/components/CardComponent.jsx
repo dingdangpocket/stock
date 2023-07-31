@@ -99,6 +99,7 @@ const CardComponent = ({item, onSave, onDel, cancelDisable}) => {
           style={INPUT}
           placeholder="商品条码"
           onChangeText={setCode}
+          keyboardType="number-pad"
           value={String(code)}
         />
       </View>
@@ -126,6 +127,7 @@ const CardComponent = ({item, onSave, onDel, cancelDisable}) => {
         <TextInput
           style={INPUT}
           placeholder="商品库存"
+          keyboardType="number-pad"
           onChangeText={setStock}
           value={String(stock)}
         />
@@ -140,6 +142,7 @@ const CardComponent = ({item, onSave, onDel, cancelDisable}) => {
         <TextInput
           style={INPUT}
           placeholder="库存金额"
+          keyboardType="number-pad"
           onChangeText={setTotal}
           value={String((stock * cost).toFixed(2))}
           editable={false}
@@ -155,6 +158,7 @@ const CardComponent = ({item, onSave, onDel, cancelDisable}) => {
         <TextInput
           style={INPUT}
           placeholder="商品进价"
+          keyboardType="number-pad"
           onChangeText={setCost}
           value={String(cost)}
         />
@@ -169,6 +173,7 @@ const CardComponent = ({item, onSave, onDel, cancelDisable}) => {
         <TextInput
           style={INPUT}
           placeholder="市场价格"
+          keyboardType="number-pad"
           onChangeText={setSell}
           value={String(sell)}
         />

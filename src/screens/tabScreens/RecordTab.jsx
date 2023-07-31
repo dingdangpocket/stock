@@ -17,7 +17,7 @@ import CardComponent from '../../components/CardComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const RecordTab = () => {
   const [data, setData] = useState([]);
-  const [search, onChangeSearch] = useState('');
+  const [text, setText] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const getToken = async key => {
     try {
@@ -39,7 +39,7 @@ const RecordTab = () => {
     });
     setRefreshing(true);
     fetch(
-      `http://47.109.111.138:8888/product/page?keywords=${search}&pageNum=1&pageSize=300`,
+      `http://47.109.111.138:8888/product/page?keywords=${text}&pageNum=1&pageSize=300`,
       {
         method: 'GET',
         headers: {satoken: await getToken('satoken')},
@@ -59,9 +59,10 @@ const RecordTab = () => {
   };
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    if (!search) {
+    if (!text) {
       setCurBtn(1);
       btns.forEach(item => {
         item.id === 1 ? (item.active = true) : (item.active = false);
@@ -69,7 +70,7 @@ const RecordTab = () => {
       fetchData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search]);
+  }, [text]);
 
   const fetchData = async () => {
     setRefreshing(true);
@@ -258,9 +259,9 @@ const RecordTab = () => {
           <TextInput
             style={styles.input}
             placeholder="输入名称或条码"
-            value={search}
+            value={String(text)}
             onChangeText={value => {
-              onChangeSearch(value);
+              setText(value);
             }}
           />
           <TouchableOpacity style={styles.button} onPress={handleQuery}>

@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Dimensions} from 'react-native';
+import React, {useState, useEffect, useRef} from 'react';
+import {StyleSheet, View, Dimensions, Animated, Easing} from 'react-native';
 import {
   useCameraDevices,
   Camera,
@@ -34,6 +34,29 @@ const ScanStack = ({navigation}) => {
     }
   }, [barcodes, navigation]);
   let MainWidth = Dimensions.get('window').width;
+
+  const scanAnimation = useRef(new Animated.Value(0.1)).current;
+  const screenWidth = Dimensions.get('window').width;
+  useEffect(() => {
+    const scanRight = Animated.timing(scanAnimation, {
+      toValue: 0.9,
+      duration: 1200,
+      useNativeDriver: true,
+    });
+    const scanLeft = Animated.timing(scanAnimation, {
+      toValue: 0.1,
+      duration: 1200,
+      useNativeDriver: true,
+    });
+    const startAnimation = () => {
+      Animated.sequence([scanRight, scanLeft]).start(startAnimation);
+    };
+    startAnimation();
+  }, [scanAnimation]);
+  const scanTranslateX = scanAnimation.interpolate({
+    inputRange: [0.1, 0.9],
+    outputRange: [-screenWidth + 275, screenWidth - 275],
+  });
   return (
     device != null &&
     hasPermission && (
@@ -71,6 +94,19 @@ const ScanStack = ({navigation}) => {
             }}>
             <BarCode width="50%" height="50%" />
           </View>
+        </View>
+        <View style={{flex: 1}}>
+          <Animated.View
+            style={{
+              position: 'absolute',
+              top: 200,
+              left: 0,
+              width: 2.5,
+              height: 370,
+              backgroundColor: 'rgba(200, 200, 200, 0.9)',
+              transform: [{translateX: scanTranslateX}],
+            }}
+          />
         </View>
         <View
           style={{

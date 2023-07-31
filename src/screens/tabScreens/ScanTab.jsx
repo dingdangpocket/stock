@@ -26,7 +26,7 @@ const ScanTab = ({navigation}) => {
       status = await Camera.getCameraPermissionStatus();
       if (status === 'denied') {
         Alert.alert(
-          'You will not be able to scan if you do not allow camera access'
+          'You will not be able to scan if you do not allow camera access',
         );
       }
     }
@@ -53,6 +53,12 @@ const ScanTab = ({navigation}) => {
     }
   };
   const handleSave = async () => {
+    if (field1.length < 13) {
+      Alert.alert('提示', '请检查条码是否正确', [{text: '确认'}], {
+        cancelable: false,
+      });
+      return;
+    }
     console.log('保存数据:', field1, field2, field3, field4, field5, field6);
     fetch('http://47.109.111.138:8888/product/create', {
       method: 'POST',
@@ -79,12 +85,12 @@ const ScanTab = ({navigation}) => {
             console.log('Red', res);
             Alert.alert(
               '提示',
-              '商品保存失败，请检查是否已经存在该商品',
+              '商品保存失败，请检查商品是否重复或信息不正确',
               [{text: '确认'}],
-              {cancelable: false}
+              {cancelable: false},
             );
           }
-        })
+        }),
       )
       .catch(err => {
         console.log('err', err);
@@ -92,9 +98,12 @@ const ScanTab = ({navigation}) => {
           '提示',
           '商品保存失败，请检查是否已经存在该商品',
           [{text: '确认'}],
-          {cancelable: false}
+          {cancelable: false},
         );
       });
+  };
+  const handleCode = text => {
+    setField1(text);
   };
   return (
     <View style={styles.container}>
@@ -112,8 +121,15 @@ const ScanTab = ({navigation}) => {
               style={styles.input}
               placeholder="请输入商品条码"
               value={field1}
-              onChangeText={text => setField1(text)}
+              maxLength={13}
+              keyboardType="number-pad"
+              onChangeText={text => handleCode(text)}
             />
+            {field1.length < 13 && (
+              <Text style={{color: '#c33333cc', fontSize: 12, marginTop: -10}}>
+                请输入至少13位商品条码
+              </Text>
+            )}
             <TextInput
               style={styles.input}
               placeholder="请输入商品名称"
@@ -124,24 +140,28 @@ const ScanTab = ({navigation}) => {
               style={styles.input}
               placeholder="请输入商品库存"
               value={field3}
+              keyboardType="number-pad"
               onChangeText={text => setField3(text)}
             />
             <TextInput
               style={styles.input}
               placeholder="请输入商品进价"
               value={field4}
+              keyboardType="number-pad"
               onChangeText={text => setField4(text)}
             />
             <TextInput
               style={styles.input}
               placeholder="请输入库存金额"
               value={field5}
+              keyboardType="number-pad"
               onChangeText={text => setField5(text)}
             />
             <TextInput
               style={styles.input}
               placeholder="请输入市场价格"
               value={field6}
+              keyboardType="number-pad"
               onChangeText={text => setField6(text)}
             />
             <View style={styles.buttonContainer}>
