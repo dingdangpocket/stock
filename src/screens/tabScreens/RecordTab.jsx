@@ -44,7 +44,7 @@ const RecordTab = () => {
       {
         method: 'GET',
         headers: {satoken: await getToken('satoken')},
-      },
+      }
     )
       .then(response =>
         response.json().then(res => {
@@ -52,7 +52,7 @@ const RecordTab = () => {
             setData(res.data.content);
             setRefreshing(false);
           }
-        }),
+        })
       )
       .catch(err => {
         console.log(err);
@@ -83,7 +83,7 @@ const RecordTab = () => {
         response.json().then(res => {
           setRefreshing(false);
           setData(res.data.content);
-        }),
+        })
       )
       .catch(err => {
         console.log(err);
@@ -124,7 +124,7 @@ const RecordTab = () => {
               cancelable: false,
             });
           }
-        }),
+        })
       )
       // eslint-disable-next-line handle-callback-err
       .catch(err => {
@@ -147,7 +147,7 @@ const RecordTab = () => {
             });
             generaicDateHandle();
           }
-        }),
+        })
       )
       .catch(err => {
         console.log(err);
@@ -221,9 +221,8 @@ const RecordTab = () => {
   };
   const generaicDateHandle = async () => {
     if (curBtn === 1) {
-      // fetchData();
+      fetchData();
       const res = await getData();
-      setRefreshing(false);
       setData([...res]);
     }
     if (curBtn === 2) {
@@ -273,15 +272,16 @@ const RecordTab = () => {
               satoken: await getToken('satoken'),
               'Content-Type': 'application/json',
             },
-          },
+          }
         )
           .then(response =>
             response.json().then(res => {
-              console.log('res', res);
+              console.log('res!!', res);
               if (res.code === 200) {
+                setData([]);
                 setData([...res.data.content]);
               }
-            }),
+            })
           )
           .catch(err => {
             console.log(err);
@@ -289,7 +289,7 @@ const RecordTab = () => {
       };
       console.log('1');
       asyncFetch();
-    }, []),
+    }, [])
   );
   return (
     <KeyboardAvoidingView style={styles.container}>

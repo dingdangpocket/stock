@@ -31,7 +31,7 @@ const CardComponent = ({item, onSave, onDel, cancelDisable}) => {
   const onHandleSave = () => {
     const TOTAL = stock * cost;
     onSave({
-      id,
+      id: Number(id),
       code: Number(code),
       name: String(name),
       stock: Number(stock),
