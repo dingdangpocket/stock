@@ -1,7 +1,16 @@
+/* eslint-disable no-dupe-keys */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, Alert} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Alert,
+  Modal,
+} from 'react-native';
 import CardComponent from '../../components/CardComponent';
+import {Alipay, WechatPay, BarCode, Back} from 'src/icons';
 const InfoStack = ({route, navigation}) => {
   const [data, setData] = useState();
   const [barcodes] = useState(route.params.barcodes);
@@ -77,9 +86,20 @@ const InfoStack = ({route, navigation}) => {
         console.log(err);
       });
   };
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     data && (
       <View style={styles.container}>
+        <Modal visible={modalVisible} animationType="slide">
+          <View style={styles.modalContainer}>
+            <Text style={styles.title}>新增商品</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => setModalVisible(false)}>
+              <Text style={styles.buttonText1}>返回</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
         <CardComponent
           item={{...data}}
           onSave={newData => handleSaveCard(newData)}
@@ -89,22 +109,62 @@ const InfoStack = ({route, navigation}) => {
         <View
           style={{
             width: 250,
-            height: 90,
+            height: 80,
             flexDirection: 'row',
             alignContent: 'center',
             justifyContent: 'center',
           }}>
           <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('ScanTab')}>
-            <Text style={styles.buttonText1}>返回</Text>
+            style={{...styles.button, backgroundColor: '#1296db'}}
+            onPress={() => setModalVisible(true)}>
+            <Alipay width="80%" height="80%" />
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.button}
+            style={{
+              height: 75,
+              width: 75,
+              margin: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'rgb(50,50,50)',
+              padding: 8,
+              borderRadius: 40,
+            }}
             onPress={() => navigation.replace('ScanStack')}>
-            <Text style={styles.buttonText1}>重新扫码</Text>
+            <BarCode width="65%" height="65%" />
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 12,
+                color: 'rgb(235,235,235)',
+              }}>
+              重新扫码
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{...styles.button, backgroundColor: '#06b106'}}
+            onPress={() => setModalVisible(true)}>
+            <WechatPay width="145%" height="145%" />
           </TouchableOpacity>
         </View>
+        <TouchableOpacity
+          style={{...styles.button, marginTop: 15}}
+          onPress={() => navigation.navigate('ScanTab')}>
+          <View
+            style={{
+              width: 45,
+              height: 45,
+              marginRight: 4,
+              marginBottom: -6,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Back width="80%" height="80%" />
+          </View>
+
+          <Text style={styles.buttonText1}>返回</Text>
+        </TouchableOpacity>
       </View>
     )
   );
@@ -115,16 +175,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  infoCard: {
-    height: 265,
-    width: 295,
-    padding: 5,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    marginBottom: 80,
-    borderRadius: 10,
-  },
   button: {
     height: 60,
     width: 90,
@@ -134,14 +184,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(50,50,50)',
     borderRadius: 5,
   },
-  buttonText: {
-    marginLeft: 15,
-    color: 'black',
-    fontSize: 18,
-  },
   buttonText1: {
     color: 'white',
-    fontSize: 18,
+    fontSize: 13,
+    color: 'rgb(235,235,235)',
   },
 });
 export default InfoStack;

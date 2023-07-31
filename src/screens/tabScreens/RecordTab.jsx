@@ -43,16 +43,15 @@ const RecordTab = () => {
       {
         method: 'GET',
         // headers: {satoken: getToken('satoken')},
-      },
+      }
     )
       .then(response =>
         response.json().then(res => {
           if (res.code === 200) {
-            console.log('T', res);
             setData(res.data.content);
             setRefreshing(false);
           }
-        }),
+        })
       )
       .catch(err => {
         console.log(err);
@@ -74,18 +73,15 @@ const RecordTab = () => {
 
   const fetchData = () => {
     setRefreshing(true);
-    fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=300', {
+    fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=350', {
       method: 'GET',
       // headers: {satoken: getToken('satoken')},
     })
       .then(response =>
         response.json().then(res => {
-          if (res.code === 200) {
-            setData(res.data.content);
-            setRefreshing(false);
-            return res;
-          }
-        }),
+          setRefreshing(false);
+          setData(res.data.content);
+        })
       )
       .catch(err => {
         console.log(err);
@@ -121,7 +117,7 @@ const RecordTab = () => {
             });
             generaicDateHandle();
           }
-        }),
+        })
       )
       // eslint-disable-next-line handle-callback-err
       .catch(err => {
@@ -144,7 +140,7 @@ const RecordTab = () => {
             });
             generaicDateHandle();
           }
-        }),
+        })
       )
       .catch(err => {
         console.log(err);

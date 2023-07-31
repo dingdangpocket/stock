@@ -17,13 +17,13 @@ const App = () => {
       'http://47.109.111.138:8888/user/login?username=niegang&password=niegang123$',
       {
         method: 'POST',
-      }
+      },
     ).then(response =>
       response.json().then(res => {
         if (res.code === 200) {
           storeData('satoken', res.data.tokenValue);
         }
-      })
+      }),
     );
   }, []);
   return (
