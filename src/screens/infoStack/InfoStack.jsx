@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   Modal,
+  Image,
 } from 'react-native';
 import CardComponent from '../../components/CardComponent';
 import {Alipay, WechatPay, BarCode, Back} from 'src/icons';
@@ -87,12 +88,33 @@ const InfoStack = ({route, navigation}) => {
       });
   };
   const [modalVisible, setModalVisible] = useState(false);
+
+  const [curPay, setCurPay] = useState();
+  const handleAli = () => {
+    setModalVisible(true);
+    setCurPay(1);
+  };
+  const handleWechat = () => {
+    setModalVisible(true);
+    setCurPay(2);
+  };
+
   return (
     data && (
       <View style={styles.container}>
         <Modal visible={modalVisible} animationType="slide">
           <View style={styles.modalContainer}>
-            <Text style={styles.title}>新增商品</Text>
+            {curPay === 1 ? (
+              <Image
+                source={require('../../static/alipay.jpg')}
+                style={{width: 325, height: 490, marginTop: -40}}
+              />
+            ) : (
+              <Image
+                source={require('../../static/wechat.jpg')}
+                style={{width: 325, height: 460, marginTop: -40}}
+              />
+            )}
             <TouchableOpacity
               style={styles.button}
               onPress={() => setModalVisible(false)}>
@@ -116,7 +138,7 @@ const InfoStack = ({route, navigation}) => {
           }}>
           <TouchableOpacity
             style={{...styles.button, backgroundColor: '#1296db'}}
-            onPress={() => setModalVisible(true)}>
+            onPress={() => handleAli()}>
             <Alipay width="80%" height="80%" />
           </TouchableOpacity>
           <TouchableOpacity
@@ -129,6 +151,7 @@ const InfoStack = ({route, navigation}) => {
               backgroundColor: 'rgb(50,50,50)',
               padding: 8,
               borderRadius: 40,
+              marginTop: 4.5,
             }}
             onPress={() => navigation.replace('ScanStack')}>
             <BarCode width="65%" height="65%" />
@@ -144,12 +167,21 @@ const InfoStack = ({route, navigation}) => {
 
           <TouchableOpacity
             style={{...styles.button, backgroundColor: '#06b106'}}
-            onPress={() => setModalVisible(true)}>
+            onPress={() => handleWechat()}>
             <WechatPay width="145%" height="145%" />
           </TouchableOpacity>
         </View>
         <TouchableOpacity
-          style={{...styles.button, marginTop: 15}}
+          style={{
+            height: 60,
+            width: 80,
+            margin: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'rgb(50,50,50)',
+            borderRadius: 5,
+            marginTop: 16,
+          }}
           onPress={() => navigation.navigate('ScanTab')}>
           <View
             style={{
@@ -162,7 +194,6 @@ const InfoStack = ({route, navigation}) => {
             }}>
             <Back width="80%" height="80%" />
           </View>
-
           <Text style={styles.buttonText1}>返回</Text>
         </TouchableOpacity>
       </View>
@@ -171,6 +202,11 @@ const InfoStack = ({route, navigation}) => {
 };
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
