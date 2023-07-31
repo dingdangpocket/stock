@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 import RoutesNav from './src/components/RoutesNav';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const App = () => {
@@ -28,25 +28,8 @@ const App = () => {
     }
   };
 
-  // const login = () => {
-  //   const asyncFet = async () => {
-  //     await fetch(
-  //       'http://47.109.111.138:8888/user/login?username=niegang&password=niegang123$',
-  //       {
-  //         method: 'POST',
-  //       }
-  //     ).then(response =>
-  //       response.json().then(res => {
-  //         if (res.code === 200) {
-  //           setToken('satoken', res.data.tokenValue);
-  //           setTokenState(res.data.tokenValue);
-  //         }
-  //       })
-  //     );
-  //   };
-  //   asyncFet();
-  // };
-  const authToken = async () => {
+  const authTokenTime = async () => {
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=350', {
         method: 'GET',
@@ -56,6 +39,9 @@ const App = () => {
         .then(data => {
           if (data.code === 500) {
             resolve(false);
+          }
+          if (data.code === 200) {
+            resolve(true);
           }
         })
         .catch(error => {
@@ -70,7 +56,7 @@ const App = () => {
         'http://47.109.111.138:8888/user/login?username=niegang&password=niegang123$',
         {
           method: 'POST',
-        }
+        },
       )
         .then(response => response.json())
         .then(data => {
@@ -84,26 +70,24 @@ const App = () => {
     });
   };
 
-  const checkToken = async () => {
+  const checkLocalToken = async () => {
     return await getToken('satoken');
   };
   useEffect(() => {
-    if (!checkToken()) {
+    if (!checkLocalToken()) {
       loginAs();
     }
-    const authTokenAs = async () => {
-      const bool = await authToken();
-      if (!bool) {
-        loginAs();
-      }
+    const authTokenTimeAs = async () => {
+      const bool = await authTokenTime();
+      bool ? setTokenState(true) : loginAs();
     };
     const loginAs = async () => {
       const token = await login();
       setToken('satoken', token);
     };
-    authTokenAs();
-    // loginAs();
+    authTokenTimeAs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return <View style={{flex: 1}}>{tokenState ? <RoutesNav /> : ''}</View>;
+  return <View style={{flex: 1}}>{tokenState ? <RoutesNav /> : null}</View>;
 };
 export default App;
