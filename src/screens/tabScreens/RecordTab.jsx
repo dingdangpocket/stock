@@ -19,6 +19,7 @@ import {useFocusEffect} from '@react-navigation/native';
 const RecordTab = () => {
   const [data, setData] = useState([]);
   const [text, setText] = useState('');
+  const [freeze, setFreeze] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const getToken = async key => {
     try {
@@ -35,6 +36,7 @@ const RecordTab = () => {
   };
   const handleQuery = async () => {
     setCurBtn(1);
+    setFreeze(true);
     btns.forEach(item => {
       item.id === 1 ? (item.active = true) : (item.active = false);
     });
@@ -44,22 +46,22 @@ const RecordTab = () => {
       {
         method: 'GET',
         headers: {satoken: await getToken('satoken')},
-      }
+      },
     )
       .then(response =>
         response.json().then(res => {
           if (res.code === 200) {
             setData(res.data.content);
             setRefreshing(false);
+            setFreeze(false);
           }
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
       });
   };
   useEffect(() => {
-    console.log('11111111');
     fetchData();
     handleRefresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -85,7 +87,7 @@ const RecordTab = () => {
         response.json().then(res => {
           setRefreshing(false);
           setData(res.data.content);
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -126,7 +128,7 @@ const RecordTab = () => {
               cancelable: false,
             });
           }
-        })
+        }),
       )
       // eslint-disable-next-line handle-callback-err
       .catch(err => {
@@ -149,7 +151,7 @@ const RecordTab = () => {
             });
             generaicDateHandle();
           }
-        })
+        }),
       )
       .catch(err => {
         console.log(err);
@@ -259,6 +261,9 @@ const RecordTab = () => {
     }
   };
   useEffect(() => {
+    if (curBtn === 1 && freeze) {
+      return;
+    }
     generaicDateHandle();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [curBtn]);
@@ -274,7 +279,7 @@ const RecordTab = () => {
               satoken: await getToken('satoken'),
               'Content-Type': 'application/json',
             },
-          }
+          },
         )
           .then(response =>
             response.json().then(res => {
@@ -282,14 +287,14 @@ const RecordTab = () => {
                 setData([]);
                 setData([...res.data.content]);
               }
-            })
+            }),
           )
           .catch(err => {
             console.log(err);
           });
       };
       asyncFetch();
-    }, [])
+    }, []),
   );
   return (
     <KeyboardAvoidingView style={styles.container}>
