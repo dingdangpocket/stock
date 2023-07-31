@@ -42,14 +42,14 @@ const InfoStack = ({route, navigation}) => {
             'Content-Type': 'application/json',
             satoken: await getToken('satoken'),
           },
-        }
+        },
       )
         .then(response =>
           response.json().then(res => {
             if (res.code === 200) {
               setData(res.data.content[0]);
             }
-          })
+          }),
         )
         .catch(err => {
           console.log(err);
@@ -61,8 +61,8 @@ const InfoStack = ({route, navigation}) => {
     fetch('http://47.109.111.138:8888/product/edit', {
       method: 'PUT',
       headers: {
+        satoken: await getToken('satoken'),
         'Content-Type': 'application/json',
-        headers: {satoken: await getToken('satoken')},
       },
       body: JSON.stringify({
         id: newData.id,
@@ -81,7 +81,7 @@ const InfoStack = ({route, navigation}) => {
               cancelable: false,
             });
           }
-        })
+        }),
       )
       // eslint-disable-next-line handle-callback-err
       .catch(err => {
@@ -103,7 +103,7 @@ const InfoStack = ({route, navigation}) => {
               cancelable: false,
             });
           }
-        })
+        }),
       )
       .catch(err => {
         console.log(err);

@@ -111,7 +111,7 @@ const ScanTab = ({navigation}) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => setModalVisible(true)}>
-          <AddGoods width="55%" height="55%" />
+          <AddGoods width="42%" height="42%" />
           <Text style={styles.buttonText}>新建商品</Text>
         </TouchableOpacity>
         <Modal visible={modalVisible} animationType="slide">
@@ -179,7 +179,7 @@ const ScanTab = ({navigation}) => {
       </View>
       <View>
         <TouchableOpacity style={styles.button} onPress={handleQueryInfo}>
-          <BarCode width="68%" height="68%" />
+          <BarCode width="61%" height="61%" />
           <Text style={styles.buttonText}>条码查询</Text>
         </TouchableOpacity>
       </View>

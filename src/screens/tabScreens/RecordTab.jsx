@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import CardComponent from '../../components/CardComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useFocusEffect} from '@react-navigation/native';
 const RecordTab = () => {
   const [data, setData] = useState([]);
   const [text, setText] = useState('');
@@ -43,7 +44,7 @@ const RecordTab = () => {
       {
         method: 'GET',
         headers: {satoken: await getToken('satoken')},
-      },
+      }
     )
       .then(response =>
         response.json().then(res => {
@@ -51,7 +52,7 @@ const RecordTab = () => {
             setData(res.data.content);
             setRefreshing(false);
           }
-        }),
+        })
       )
       .catch(err => {
         console.log(err);
@@ -82,7 +83,7 @@ const RecordTab = () => {
         response.json().then(res => {
           setRefreshing(false);
           setData(res.data.content);
-        }),
+        })
       )
       .catch(err => {
         console.log(err);
@@ -97,8 +98,8 @@ const RecordTab = () => {
     fetch('http://47.109.111.138:8888/product/edit', {
       method: 'PUT',
       headers: {
+        satoken: await getToken('satoken'),
         'Content-Type': 'application/json',
-        headers: {satoken: await getToken('satoken')},
       },
       body: JSON.stringify({
         id: newData.id,
@@ -112,13 +113,18 @@ const RecordTab = () => {
     })
       .then(response =>
         response.json().then(res => {
+          console.log('res', res);
           if (res.code === 200) {
             Alert.alert('提示', '盘点成功', [{text: '确认'}], {
               cancelable: false,
             });
             generaicDateHandle();
+          } else {
+            Alert.alert('提示', '盘点失败', [{text: '确认'}], {
+              cancelable: false,
+            });
           }
-        }),
+        })
       )
       // eslint-disable-next-line handle-callback-err
       .catch(err => {
@@ -141,7 +147,7 @@ const RecordTab = () => {
             });
             generaicDateHandle();
           }
-        }),
+        })
       )
       .catch(err => {
         console.log(err);
@@ -164,9 +170,10 @@ const RecordTab = () => {
     setCurBtn(id);
     setBtns([...btns]);
   };
-  const getData = () => {
+  const getData = async () => {
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
-      fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=300', {
+      fetch('http://47.109.111.138:8888/product/page?pageNum=1&pageSize=350', {
         method: 'GET',
         headers: {satoken: await getToken('satoken')},
       })
@@ -252,6 +259,38 @@ const RecordTab = () => {
     generaicDateHandle();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [curBtn]);
+
+  useFocusEffect(
+    useCallback(() => {
+      handleRefresh();
+      // const asyncFetch = async () => {
+      //   fetch(
+      //     'http://47.109.111.138:8888/product/page?pageNum=1&pageSize=300',
+      //     {
+      //       method: 'GET',
+      //       headers: {
+      //         satoken: await getToken('satoken'),
+      //         'Content-Type': 'application/json',
+      //       },
+      //     },
+      //   )
+      //     .then(response =>
+      //       response.json().then(res => {
+      //         if (res.code === 200) {
+      //           setData(res.data.content);
+      //         }
+      //       }),
+      //     )
+      //     .catch(err => {
+      //       console.log(err);
+      //     });
+      // };
+      // asyncFetch();
+      // return () => {
+      //   console.log('MyScreen is unfocused');
+      // };
+    }, [])
+  );
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.container}>
