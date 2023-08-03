@@ -56,7 +56,7 @@ const App = () => {
         'http://47.109.111.138:8888/user/login?username=niegang&password=niegang123$',
         {
           method: 'POST',
-        },
+        }
       )
         .then(response => response.json())
         .then(data => {
@@ -83,11 +83,12 @@ const App = () => {
     };
     const loginAs = async () => {
       const token = await login();
+      console.log('login', login);
       setToken('satoken', token);
     };
     authTokenTimeAs();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return <View style={{flex: 1}}>{tokenState ? <RoutesNav /> : null}</View>;
+  return <View style={{flex: 1}}>{<RoutesNav />}</View>;
 };
 export default App;

@@ -26,7 +26,7 @@ const ScanTab = ({navigation}) => {
       status = await Camera.getCameraPermissionStatus();
       if (status === 'denied') {
         Alert.alert(
-          'You will not be able to scan if you do not allow camera access',
+          'You will not be able to scan if you do not allow camera access'
         );
       }
     }
@@ -87,10 +87,10 @@ const ScanTab = ({navigation}) => {
               '提示',
               '商品保存失败，请检查商品是否重复或信息不正确',
               [{text: '确认'}],
-              {cancelable: false},
+              {cancelable: false}
             );
           }
-        }),
+        })
       )
       .catch(err => {
         console.log('err', err);
@@ -98,7 +98,7 @@ const ScanTab = ({navigation}) => {
           '提示',
           '商品保存失败，请检查是否已经存在该商品',
           [{text: '确认'}],
-          {cancelable: false},
+          {cancelable: false}
         );
       });
   };
