@@ -18,6 +18,9 @@ const ScanTab = ({navigation}) => {
   const handleQueryInfo = () => {
     navigation.navigate('ScanStack');
   };
+  const handleQueryAdd = () => {
+    navigation.navigate('ScanCreactProductSrack');
+  };
   useEffect(() => {
     checkCameraPermission();
   }, []);
@@ -28,7 +31,7 @@ const ScanTab = ({navigation}) => {
       status = await Camera.getCameraPermissionStatus();
       if (status === 'denied') {
         Alert.alert(
-          'You will not be able to scan if you do not allow camera access',
+          'You will not be able to scan if you do not allow camera access'
         );
       }
     }
@@ -89,10 +92,10 @@ const ScanTab = ({navigation}) => {
               '提示',
               '商品保存失败，请检查商品是否重复或信息不正确',
               [{text: '确认'}],
-              {cancelable: false},
+              {cancelable: false}
             );
           }
-        }),
+        })
       )
       .catch(err => {
         console.log('err', err);
@@ -100,7 +103,7 @@ const ScanTab = ({navigation}) => {
           '提示',
           '商品保存失败，请检查是否已经存在该商品',
           [{text: '确认'}],
-          {cancelable: false},
+          {cancelable: false}
         );
       });
   };
@@ -125,7 +128,7 @@ const ScanTab = ({navigation}) => {
           style={{...styles.button}}
           onPress={() => setModalVisible(true)}>
           <AddGoods width="42%" height="42%" />
-          <Text style={styles.buttonText}>新建商品</Text>
+          <Text style={styles.buttonText}>手动录入</Text>
         </TouchableOpacity>
         <Modal visible={modalVisible} animationType="slide">
           <View style={styles.modalContainer}>
@@ -189,6 +192,12 @@ const ScanTab = ({navigation}) => {
             </View>
           </View>
         </Modal>
+      </View>
+      <View>
+        <TouchableOpacity style={styles.button} onPress={handleQueryAdd}>
+          <BarCode width="61%" height="61%" />
+          <Text style={styles.buttonText}>扫码录入</Text>
+        </TouchableOpacity>
       </View>
       <View>
         <TouchableOpacity style={styles.button} onPress={handleQueryInfo}>
