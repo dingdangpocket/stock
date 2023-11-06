@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react-native/no-inline-styles */
 
 import React, {useState} from 'react';
@@ -53,13 +54,7 @@ const CardComponent = ({item, onSave, onDel, cancelDisable}) => {
       {text: '确认删除', onPress: () => onDel(id)},
     ]);
   };
-  const renderDiff = () => {
-    if (diff?.charCodeAt() > 255 || diff == null) {
-      return '暂无';
-    } else {
-      return (diff - cost).toFixed(2);
-    }
-  };
+  const renderDiff = () => {};
   return (
     <View
       style={{
@@ -185,7 +180,7 @@ const CardComponent = ({item, onSave, onDel, cancelDisable}) => {
           placeholder="批发价格"
           keyboardType="number-pad"
           onChangeText={setDiff}
-          value={diff == null ? '暂无' : String(diff)}
+          value={String(diff)}
         />
       </View>
       <View
@@ -219,7 +214,9 @@ const CardComponent = ({item, onSave, onDel, cancelDisable}) => {
               (diff - cost).toFixed(2) > 0 && diff != null ? 'green' : 'red',
           }}>
           批发利润:
-          {renderDiff()}
+          {diff == '0' || diff == null || diff == ''
+            ? '*'
+            : (diff - cost).toFixed(2)}
         </Text>
       </View>
       <View style={styles.btnContainer}>
