@@ -10,6 +10,7 @@ import {
   Alert,
   Modal,
   TextInput,
+  ToastAndroid,
 } from 'react-native';
 
 import {
@@ -30,6 +31,8 @@ const ScanCreactProductSrack = ({navigation}) => {
   const [field4, setField4] = useState('');
   const [field5, setField5] = useState('');
   const [field6, setField6] = useState('');
+  const [field7, setField7] = useState('');
+  const [supplier, setSupplier] = useState('');
   const [hasPermission, setHasPermission] = useState(false);
   const devices = useCameraDevices();
   const device = devices.back;
@@ -56,6 +59,7 @@ const ScanCreactProductSrack = ({navigation}) => {
       setField4('');
       setField5('');
       setField6('');
+      setField7('');
     }
   }, [modalVisible]);
   useEffect(() => {
@@ -69,7 +73,7 @@ const ScanCreactProductSrack = ({navigation}) => {
         `https://www.mxnzp.com/api/barcode/goods/details?barcode=${barcode}&app_id=rgihdrm0kslojqvm&app_secret=WnhrK251TWlUUThqaVFWbG5OeGQwdz09`,
         {
           method: 'POST',
-        },
+        }
       )
         .then(response =>
           response.json().then(res => {
@@ -78,19 +82,22 @@ const ScanCreactProductSrack = ({navigation}) => {
               setField1(res.data.barcode);
               setField2(res.data.goodsName);
               setField6(res.data.price);
+              setSupplier(res.data.supplier);
             } else {
               console.log('Red', res);
-              Alert.alert('提示', '信息查询失败', [{text: '确认'}], {
-                cancelable: false,
-              });
+              // Alert.alert('提示', '信息查询失败', [{text: '确认'}], {
+              //   cancelable: false,
+              // });
+              // navigation.navigate('ScanTab');
             }
-          })
+          }),
         )
         .catch(err => {
           console.log('err', err);
-          Alert.alert('提示', '信息查询失败', [{text: '确认'}], {
-            cancelable: false,
-          });
+          // Alert.alert('提示', '信息查询失败', [{text: '确认'}], {
+          //   cancelable: false,
+          // });
+          // navigation.navigate('ScanTab');
         });
       setField1(barcodes[0]?.rawValue);
       setModalVisible(true);
@@ -157,24 +164,27 @@ const ScanCreactProductSrack = ({navigation}) => {
         cost: field4,
         total: field5,
         sell: field6,
+        diff: field7,
       }),
     })
       .then(response =>
         response.json().then(res => {
           if (res.code === 200) {
-            console.log('Red', res);
-            Alert.alert('保存成功');
+            // console.log('Red', res);
+            // Alert.alert('保存成功');
             setModalVisible(false);
+            ToastAndroid.show('商品录入成功', ToastAndroid.SHORT);
+            navigation.navigate('ScanTab');
           } else {
-            console.log('Red', res);
+            // console.log('Red', res);
             Alert.alert(
               '提示',
               '商品保存失败，请检查商品是否重复或信息不正确',
               [{text: '确认'}],
-              {cancelable: false}
+              {cancelable: false},
             );
           }
-        })
+        }),
       )
       .catch(err => {
         console.log('err', err);
@@ -182,12 +192,16 @@ const ScanCreactProductSrack = ({navigation}) => {
           '提示',
           '商品保存失败，请检查是否已经存在该商品',
           [{text: '确认'}],
-          {cancelable: false}
+          {cancelable: false},
         );
       });
   };
   const handleCode = text => {
     setField1(text);
+  };
+  const onCancel = () => {
+    setModalVisible(false);
+    navigation.navigate('ScanTab');
   };
   return (
     device != null &&
@@ -251,7 +265,7 @@ const ScanCreactProductSrack = ({navigation}) => {
         />
         <Modal visible={modalVisible} animationType="slide">
           <View style={styles.modalContainer}>
-            <Text style={styles.title}>新增商品</Text>
+            <Text style={styles.title}>扫码录入商品</Text>
             <TextInput
               style={styles.input}
               placeholder="请输入商品条码"
@@ -294,15 +308,23 @@ const ScanCreactProductSrack = ({navigation}) => {
             />
             <TextInput
               style={styles.input}
+              placeholder="请输入批发价格"
+              value={field7}
+              keyboardType="number-pad"
+              onChangeText={text => setField7(text)}
+            />
+            <TextInput
+              style={styles.input}
               placeholder="请输入市场价格"
               value={field6}
               keyboardType="number-pad"
               onChangeText={text => setField6(text)}
             />
+            <Text style={styles.title}>{supplier}</Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.button2}
-                onPress={() => setModalVisible(false)}>
+                onPress={() => onCancel()}>
                 <Text style={styles.buttonText}>取消</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button2} onPress={handleSave}>

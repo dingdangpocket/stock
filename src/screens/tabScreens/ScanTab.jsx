@@ -44,6 +44,7 @@ const ScanTab = ({navigation}) => {
   const [field4, setField4] = useState('');
   const [field5, setField5] = useState('');
   const [field6, setField6] = useState('');
+  const [field7, setField7] = useState('');
   const getToken = async key => {
     try {
       const value = await AsyncStorage.getItem(key);
@@ -78,6 +79,7 @@ const ScanTab = ({navigation}) => {
         cost: field4,
         total: field5,
         sell: field6,
+        diff: field7,
       }),
     })
       .then(response =>
@@ -175,6 +177,13 @@ const ScanTab = ({navigation}) => {
             />
             <TextInput
               style={styles.input}
+              placeholder="请输入批发价格"
+              value={field7}
+              keyboardType="number-pad"
+              onChangeText={text => setField7(text)}
+            />
+            <TextInput
+              style={styles.input}
               placeholder="请输入市场价格"
               value={field6}
               keyboardType="number-pad"
@@ -202,7 +211,7 @@ const ScanTab = ({navigation}) => {
       <View>
         <TouchableOpacity style={styles.button} onPress={handleQueryInfo}>
           <BarCode width="61%" height="61%" />
-          <Text style={styles.buttonText}>条码查询</Text>
+          <Text style={styles.buttonText}>扫码查询</Text>
         </TouchableOpacity>
       </View>
       <TouchableOpacity
@@ -251,7 +260,7 @@ const styles = StyleSheet.create({
     margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgb(50,50,50)',
+    backgroundColor: 'rgb(80,80,80)',
     borderRadius: 5,
   },
   button2: {
