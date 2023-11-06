@@ -13,11 +13,19 @@ buildscript {
         VisionCameraCodeScanner_compileSdkVersion = 31 //add
     }
     repositories {
+        maven{ url 'https://maven.aliyun.com/repository/google'}//代理
         google()
         mavenCentral()
     }
     dependencies {
         classpath("com.android.tools.build:gradle:7.3.1")
         classpath("com.facebook.react:react-native-gradle-plugin")
+    }
+}
+allprojects {
+    repositories {
+        maven{ url 'https://maven.aliyun.com/repository/google'} //重点关注这一行
+        google()
+        jcenter()
     }
 }

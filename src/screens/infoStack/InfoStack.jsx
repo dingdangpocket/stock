@@ -186,7 +186,6 @@ const InfoStack = ({route, navigation}) => {
               重新扫码
             </Text>
           </TouchableOpacity>
-
           <TouchableOpacity
             style={{...styles.button, backgroundColor: '#06b106'}}
             onPress={() => handleWechat()}>

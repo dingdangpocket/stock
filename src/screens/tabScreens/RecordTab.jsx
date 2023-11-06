@@ -85,6 +85,7 @@ const RecordTab = () => {
     })
       .then(response =>
         response.json().then(res => {
+          console.log('res', res);
           setRefreshing(false);
           setData(res.data.content);
         }),
@@ -113,11 +114,12 @@ const RecordTab = () => {
         cost: newData.cost,
         sell: newData.sell,
         total: newData.total,
+        diff: newData.diff,
       }),
     })
       .then(response =>
         response.json().then(res => {
-          console.log('res', res);
+          // console.log('res', res);
           if (res.code === 200) {
             Alert.alert('提示', '盘点成功', [{text: '确认'}], {
               cancelable: false,

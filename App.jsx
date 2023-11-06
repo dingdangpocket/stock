@@ -83,7 +83,6 @@ const App = () => {
     };
     const loginAs = async () => {
       const token = await login();
-      console.log('login', login);
       setToken('satoken', token);
     };
     authTokenTimeAs();

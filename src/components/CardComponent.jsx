@@ -1,4 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
+
 import React, {useState} from 'react';
 import {
   View,
@@ -10,7 +11,6 @@ import {
   Alert,
 } from 'react-native';
 const CardComponent = ({item, onSave, onDel, cancelDisable}) => {
-  console.log('t', item);
   let MainWidth = Dimensions.get('window').width;
   const INPUT = {
     width: MainWidth * 0.65,
@@ -28,6 +28,7 @@ const CardComponent = ({item, onSave, onDel, cancelDisable}) => {
   const [setTotal] = useState(item.total);
   const [cost, setCost] = useState(item.cost);
   const [sell, setSell] = useState(item.sell);
+  const [diff, setDiff] = useState(item.diff);
   const onHandleSave = () => {
     const TOTAL = stock * cost;
     onSave({
@@ -38,6 +39,7 @@ const CardComponent = ({item, onSave, onDel, cancelDisable}) => {
       total: Number(TOTAL),
       cost: Number(cost),
       sell: Number(sell),
+      diff: Number(diff),
     });
     //传回父组件；
   };
@@ -50,6 +52,13 @@ const CardComponent = ({item, onSave, onDel, cancelDisable}) => {
       },
       {text: '确认删除', onPress: () => onDel(id)},
     ]);
+  };
+  const renderDiff = () => {
+    if (diff?.charCodeAt() > 255 || diff == null) {
+      return '暂无';
+    } else {
+      return (diff - cost).toFixed(2);
+    }
   };
   return (
     <View
@@ -170,13 +179,13 @@ const CardComponent = ({item, onSave, onDel, cancelDisable}) => {
           alignItems: 'center',
           justifyContent: 'space-around',
         }}>
-        <Text>市场价格:</Text>
+        <Text>批发价格:</Text>
         <TextInput
           style={INPUT}
-          placeholder="市场价格"
+          placeholder="批发价格"
           keyboardType="number-pad"
-          onChangeText={setSell}
-          value={String(sell)}
+          onChangeText={setDiff}
+          value={diff == null ? '暂无' : String(diff)}
         />
       </View>
       <View
@@ -185,8 +194,32 @@ const CardComponent = ({item, onSave, onDel, cancelDisable}) => {
           alignItems: 'center',
           justifyContent: 'space-around',
         }}>
+        <Text>零售价格:</Text>
+        <TextInput
+          style={INPUT}
+          placeholder="零售价格"
+          keyboardType="number-pad"
+          onChangeText={setSell}
+          value={String(sell)}
+        />
+      </View>
+
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+        }}>
         <Text style={{color: (sell - cost).toFixed(2) > 0 ? 'green' : 'red'}}>
-          利润:{(sell - cost).toFixed(2)}
+          零售利润:{(sell - cost).toFixed(2)}
+        </Text>
+        <Text
+          style={{
+            color:
+              (diff - cost).toFixed(2) > 0 && diff != null ? 'green' : 'red',
+          }}>
+          批发利润:
+          {renderDiff()}
         </Text>
       </View>
       <View style={styles.btnContainer}>

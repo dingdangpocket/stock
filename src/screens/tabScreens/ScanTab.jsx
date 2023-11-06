@@ -8,10 +8,12 @@ import {
   Alert,
   Modal,
   TextInput,
+  Image,
 } from 'react-native';
 import {Camera} from 'react-native-vision-camera';
 import {BarCode, AddGoods} from 'src/icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Alipay, WechatPay, Back} from 'src/icons';
 const ScanTab = ({navigation}) => {
   const handleQueryInfo = () => {
     navigation.navigate('ScanStack');
@@ -26,7 +28,7 @@ const ScanTab = ({navigation}) => {
       status = await Camera.getCameraPermissionStatus();
       if (status === 'denied') {
         Alert.alert(
-          'You will not be able to scan if you do not allow camera access'
+          'You will not be able to scan if you do not allow camera access',
         );
       }
     }
@@ -87,10 +89,10 @@ const ScanTab = ({navigation}) => {
               '提示',
               '商品保存失败，请检查商品是否重复或信息不正确',
               [{text: '确认'}],
-              {cancelable: false}
+              {cancelable: false},
             );
           }
-        })
+        }),
       )
       .catch(err => {
         console.log('err', err);
@@ -98,18 +100,29 @@ const ScanTab = ({navigation}) => {
           '提示',
           '商品保存失败，请检查是否已经存在该商品',
           [{text: '确认'}],
-          {cancelable: false}
+          {cancelable: false},
         );
       });
   };
   const handleCode = text => {
     setField1(text);
   };
+  const [modalVisible1, setModalVisible1] = useState(false);
+  const [curPay, setCurPay] = useState();
+  const handleAli = () => {
+    setModalVisible1(true);
+    Set;
+    setCurPay(1);
+  };
+  const handleWechat = () => {
+    setModalVisible1(true);
+    setCurPay(2);
+  };
   return (
     <View style={styles.container}>
       <View style={{marginBottom: 10}}>
         <TouchableOpacity
-          style={styles.button}
+          style={{...styles.button}}
           onPress={() => setModalVisible(true)}>
           <AddGoods width="42%" height="42%" />
           <Text style={styles.buttonText}>新建商品</Text>
@@ -183,6 +196,37 @@ const ScanTab = ({navigation}) => {
           <Text style={styles.buttonText}>条码查询</Text>
         </TouchableOpacity>
       </View>
+      <TouchableOpacity
+        style={{...styles.button, backgroundColor: '#1296db'}}
+        onPress={() => handleAli()}>
+        <Alipay width="80%" height="80%" />
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={{...styles.button, backgroundColor: '#06b106'}}
+        onPress={() => handleWechat()}>
+        <WechatPay width="100%" height="100%" />
+      </TouchableOpacity>
+      <Modal visible={modalVisible1} animationType="slide">
+        <View style={styles.modalContainer}>
+          {curPay === 1 ? (
+            <Image
+              source={require('../../static/alipay.jpg')}
+              style={{width: 325, height: 490, marginTop: -40}}
+            />
+          ) : (
+            <Image
+              source={require('../../static/wechat.jpg')}
+              style={{width: 325, height: 460, marginTop: -40}}
+            />
+          )}
+          <TouchableOpacity
+            style={styles.button1}
+            onPress={() => setModalVisible1(false)}>
+            <Text style={styles.buttonText1}>返回</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -193,8 +237,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    height: 150,
-    width: 150,
+    height: 100,
+    width: 115,
     margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -212,7 +256,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontSize: 20,
+    fontSize: 18,
   },
   modalContainer: {
     flex: 1,
@@ -237,6 +281,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 20,
+  },
+  button1: {
+    height: 60,
+    width: 90,
+    margin: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgb(50,50,50)',
+    borderRadius: 5,
+  },
+  buttonText1: {
+    color: 'white',
+    fontSize: 13,
   },
 });
 export default ScanTab;
