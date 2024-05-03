@@ -4,9 +4,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import RecordTab from 'src/screens/tabScreens/RecordTab';
 import ScanTab from 'src/screens/tabScreens/ScanTab';
 import DataTab from 'src/screens/tabScreens/DataTab';
-import {ContentContext} from 'src/context/ContextProvider';
+import ComputedTab from 'src/screens/tabScreens/ComputedTab';
 import {TouchableOpacity} from 'react-native';
-import {useContext} from 'react';
 import {
   RecordIconActive,
   RecordIconUnActive,
@@ -14,6 +13,8 @@ import {
   ScanIconUnActive,
   DataIconActive,
   DataIconUnActive,
+  ComputedIconUnActive,
+  ComputedIconActive,
 } from 'src/icons';
 const Tab = createBottomTabNavigator();
 const IconSet = {
@@ -23,6 +24,8 @@ const IconSet = {
   unActiveScanTab: <ScanIconUnActive width="75%" height="75%" />,
   activeDataTab: <DataIconActive width="78%" height="78%" />,
   unActiveDataTab: <DataIconUnActive width="82%" height="82%" />,
+  activeComputedTab: <ComputedIconActive width="85%" height="85%" />,
+  unActiveComputedTab: <ComputedIconUnActive width="70%" height="70%" />,
 };
 const HomeTabsRoutes = () => {
   const HomeTabRoutesConfig = [
@@ -42,6 +45,12 @@ const HomeTabsRoutes = () => {
       name: 'DataTab',
       component: DataTab,
       option: {title: '统计'},
+      tabBarBadge: null,
+    },
+    {
+      name: 'ComputedTab',
+      component: ComputedTab,
+      option: {title: '计算'},
       tabBarBadge: null,
     },
   ];

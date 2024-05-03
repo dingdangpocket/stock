@@ -102,7 +102,7 @@ const ScanStack = ({navigation}) => {
               top: 200,
               left: 0,
               width: 2.5,
-              height: 370,
+              height: 230,
               backgroundColor: 'rgba(200, 200, 200, 0.9)',
               transform: [{translateX: scanTranslateX}],
             }}

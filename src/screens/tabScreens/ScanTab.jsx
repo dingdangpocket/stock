@@ -14,7 +14,14 @@ import {Camera} from 'react-native-vision-camera';
 import {BarCode, AddGoods} from 'src/icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Alipay, WechatPay, Back} from 'src/icons';
+import RNPrint from 'react-native-print';
 const ScanTab = ({navigation}) => {
+ const printHTML=async ()=> {
+  console.log(RNPrint);
+    await RNPrint.print({
+      html: '<h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3>'
+    })
+  }
   const handleQueryInfo = () => {
     navigation.navigate('ScanStack');
   };
@@ -31,7 +38,7 @@ const ScanTab = ({navigation}) => {
       status = await Camera.getCameraPermissionStatus();
       if (status === 'denied') {
         Alert.alert(
-          'You will not be able to scan if you do not allow camera access'
+          'You will not be able to scan if you do not allow camera access',
         );
       }
     }
@@ -94,10 +101,10 @@ const ScanTab = ({navigation}) => {
               '提示',
               '商品保存失败，请检查商品是否重复或信息不正确',
               [{text: '确认'}],
-              {cancelable: false}
+              {cancelable: false},
             );
           }
-        })
+        }),
       )
       .catch(err => {
         console.log('err', err);
@@ -105,7 +112,7 @@ const ScanTab = ({navigation}) => {
           '提示',
           '商品保存失败，请检查是否已经存在该商品',
           [{text: '确认'}],
-          {cancelable: false}
+          {cancelable: false},
         );
       });
   };
@@ -127,7 +134,15 @@ const ScanTab = ({navigation}) => {
     <View style={styles.container}>
       <View style={{marginBottom: 10}}>
         <TouchableOpacity
-          style={{...styles.button}}
+          style={{
+            height: 100,
+            width: 115,
+            margin: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'rgb(135,135,135)',
+            borderRadius: 5,
+          }}
           onPress={() => setModalVisible(true)}>
           <AddGoods width="42%" height="42%" />
           <Text style={styles.buttonText}>手动录入</Text>
@@ -203,13 +218,33 @@ const ScanTab = ({navigation}) => {
         </Modal>
       </View>
       <View>
-        <TouchableOpacity style={styles.button} onPress={handleQueryAdd}>
+        <TouchableOpacity
+          style={{
+            height: 100,
+            width: 115,
+            margin: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#5ba585',
+            borderRadius: 5,
+          }}
+          onPress={handleQueryAdd}>
           <BarCode width="61%" height="61%" />
           <Text style={styles.buttonText}>扫码录入</Text>
         </TouchableOpacity>
       </View>
       <View>
-        <TouchableOpacity style={styles.button} onPress={handleQueryInfo}>
+        <TouchableOpacity
+          style={{
+            height: 100,
+            width: 115,
+            margin: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#c83c23',
+            borderRadius: 5,
+          }}
+          onPress={handleQueryInfo}>
           <BarCode width="61%" height="61%" />
           <Text style={styles.buttonText}>扫码查询</Text>
         </TouchableOpacity>
@@ -224,6 +259,11 @@ const ScanTab = ({navigation}) => {
         style={{...styles.button, backgroundColor: '#06b106'}}
         onPress={() => handleWechat()}>
         <WechatPay width="100%" height="100%" />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{...styles.button, backgroundColor: '#06b106'}}
+        onPress={() => printHTML()}>
+        <Text style={styles.buttonText}>PRINT</Text>
       </TouchableOpacity>
       <Modal visible={modalVisible1} animationType="slide">
         <View style={styles.modalContainer}>

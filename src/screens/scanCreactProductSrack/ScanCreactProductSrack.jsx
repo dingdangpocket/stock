@@ -73,7 +73,7 @@ const ScanCreactProductSrack = ({navigation}) => {
         `https://www.mxnzp.com/api/barcode/goods/details?barcode=${barcode}&app_id=rgihdrm0kslojqvm&app_secret=WnhrK251TWlUUThqaVFWbG5OeGQwdz09`,
         {
           method: 'POST',
-        }
+        },
       )
         .then(response =>
           response.json().then(res => {
@@ -90,7 +90,7 @@ const ScanCreactProductSrack = ({navigation}) => {
               // });
               // navigation.navigate('ScanTab');
             }
-          }),
+          })
         )
         .catch(err => {
           console.log('err', err);
@@ -181,10 +181,10 @@ const ScanCreactProductSrack = ({navigation}) => {
               '提示',
               '商品保存失败，请检查商品是否重复或信息不正确',
               [{text: '确认'}],
-              {cancelable: false},
+              {cancelable: false}
             );
           }
-        }),
+        })
       )
       .catch(err => {
         console.log('err', err);
@@ -192,7 +192,7 @@ const ScanCreactProductSrack = ({navigation}) => {
           '提示',
           '商品保存失败，请检查是否已经存在该商品',
           [{text: '确认'}],
-          {cancelable: false},
+          {cancelable: false}
         );
       });
   };
@@ -248,7 +248,7 @@ const ScanCreactProductSrack = ({navigation}) => {
               top: 200,
               left: 0,
               width: 2.5,
-              height: 370,
+              height: 230,
               backgroundColor: 'rgba(200, 200, 200, 0.9)',
               transform: [{translateX: scanTranslateX}],
             }}
