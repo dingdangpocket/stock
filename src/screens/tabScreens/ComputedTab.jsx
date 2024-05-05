@@ -488,7 +488,7 @@ const ComputedTab = () => {
           )}
         </View>
 
-        <View style={styles.list}>
+        {/* <View style={styles.list}>
           <FlatList
             data={data}
             renderItem={({item}) => (
@@ -515,7 +515,7 @@ const ComputedTab = () => {
               />
             }
           />
-        </View>
+        </View> */}
       </View>
     </KeyboardAvoidingView>
   );

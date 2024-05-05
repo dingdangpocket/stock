@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState,NetPrinter} from 'react';
 import {
   View,
   StyleSheet,
@@ -13,15 +13,17 @@ import {
 import {Camera} from 'react-native-vision-camera';
 import {BarCode, AddGoods} from 'src/icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Alipay, WechatPay, Back} from 'src/icons';
-import RNPrint from 'react-native-print';
+import {Alipay, WechatPay} from 'src/icons';
+import { RNUSBPrinter } from 'react-native-usb-printer';
+
+import { log } from 'react-native-reanimated';
+// import {
+//   USBPrinter,
+//   BLEPrinter
+// } from "react-native-thermal-receipt-printer";
+// import { log } from 'react-native-reanimated';
+// import { USBPrinter } from 'react-native-printer';
 const ScanTab = ({navigation}) => {
- const printHTML=async ()=> {
-  console.log(RNPrint);
-    await RNPrint.print({
-      html: '<h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3>'
-    })
-  }
   const handleQueryInfo = () => {
     navigation.navigate('ScanStack');
   };
@@ -130,9 +132,74 @@ const ScanTab = ({navigation}) => {
     setModalVisible1(true);
     setCurPay(2);
   };
+
+  // const [printers, setPrinters] = useState([]);
+  // const [currentPrinter, setCurrentPrinter] = useState();
+  const go = () => {
+    if(Platform.OS == 'android'){
+      USBPrinter.init().then(()=> {
+        //list printers
+        USBPrinter.getDeviceList().then(setPrinters);
+      })
+    }
+    BLEPrinter.init().then(()=> {
+      console.log("!!", BLEPrinter.getDeviceList());
+    });
+    console.log("printers设备号",printers);
+  }
+  const connect = (printer) => USBPrinter.connectPrinter(printer.vendorID, printer.productId).then(() => setCurrentPrinter(printer))
+  const printTest=()=>{
+    USBPrinter.printText("<C>sample text</C>\n");
+  }
+
+  //USB打印机模块；
+  const [printers, setPrinters] = useState([]);
+  const [currentPrinter, setCurrentPrinter] = useState(null);
+  // useEffect(() => {
+  //   // 初始化打印机模块
+  //   USBPrinter.init();
+
+  //   // 获取打印机列表
+  //   USBPrinter.getDeviceList().then((printersList) => {
+  //     setPrinters(printersList);
+      
+  //     // 选择要使用的打印机（这里假设你已经知道目标打印机的vendorID和productID）
+  //     const targetPrinter = printersList.find(
+  //       (printer) => printer.vendorId === YOUR_VENDOR_ID && printer.productId === YOUR_PRODUCT_ID
+  //     );
+      
+  //     if (targetPrinter) {
+  //       setCurrentPrinter(targetPrinter);
+  //       // 连接打印机
+  //       USBPrinter.connectPrinter(targetPrinter.vendorId, targetPrinter.productId)
+  //         .then((connectedPrinter) => {
+  //           console.log('Printer connected:', connectedPrinter);
+  //         })
+  //         .catch((error) => {
+  //           console.error('Failed to connect to printer:', error);
+  //         });
+  //     }
+  //   });
+  // }, []);
+
+  // const printText = () => {
+  //   if (currentPrinter) {
+  //     USBPrinter.printText('Hello, Printer!').then(() => {
+  //       console.log('Text printed successfully.');
+  //     }).catch((error) => {
+  //       console.error('Failed to print text:', error);
+  //     });
+  //   }
+  // };
+  const print=()=>{
+    console.log(RNUSBPrinter);
+  // const res=  SunmiPrinter.connect()
+  // const res2=   SunmiPrinter.openPrinter(content, 0)
+  // console.log("RES",res,res2);
+  }
   return (
     <View style={styles.container}>
-      <View style={{marginBottom: 10}}>
+      {/* <View style={{marginBottom: 10}}>
         <TouchableOpacity
           style={{
             height: 100,
@@ -260,11 +327,7 @@ const ScanTab = ({navigation}) => {
         onPress={() => handleWechat()}>
         <WechatPay width="100%" height="100%" />
       </TouchableOpacity>
-      <TouchableOpacity
-        style={{...styles.button, backgroundColor: '#06b106'}}
-        onPress={() => printHTML()}>
-        <Text style={styles.buttonText}>PRINT</Text>
-      </TouchableOpacity>
+    
       <Modal visible={modalVisible1} animationType="slide">
         <View style={styles.modalContainer}>
           {curPay === 1 ? (
@@ -284,7 +347,12 @@ const ScanTab = ({navigation}) => {
             <Text style={styles.buttonText1}>返回</Text>
           </TouchableOpacity>
         </View>
-      </Modal>
+      </Modal> */}
+        <TouchableOpacity
+        style={{...styles.button, backgroundColor: '#06b106'}}
+        onPress={() => print()}>
+        <Text style={styles.buttonText}>PRINT</Text>
+      </TouchableOpacity>
     </View>
   );
 };

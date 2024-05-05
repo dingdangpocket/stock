@@ -336,7 +336,7 @@ const RecordTab = () => {
             })}
           </ScrollView>
         </View>
-        <View style={styles.list}>
+        {/* <View style={styles.list}>
           <FlatList
             data={data}
             renderItem={({item}) => (
@@ -354,7 +354,7 @@ const RecordTab = () => {
               />
             }
           />
-        </View>
+        </View> */}
       </View>
     </KeyboardAvoidingView>
   );
